@@ -1,0 +1,10 @@
+account: lab
+environmentType: LAB
+
+application:
+  auth0:
+    clientId: TBD-LAB # TODO: Get Appropriate Client ID
+
+pipelines:
+  protected: false
+  manualDeploy: true

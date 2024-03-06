@@ -1,0 +1,7 @@
+environment:
+  accountDomain: ${~account}.truck-os.ninja
+
+application:
+  googleMapsApiKey: AIzaSyDP1nlQWq1njNKFLbhajokZtEwmymHDJY0
+  posthogApiKey: phc_svCGCx1TJcBWwS1nnJz8aCWBy5uuZTNRYhDvaWvDNDc
+  posthogEnabled: false

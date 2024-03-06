@@ -1,0 +1,8 @@
+type: STATIC_SITE
+
+environments:
+  pipelines:
+    config:
+      tags:
+        - '<%'
+        - '%>'

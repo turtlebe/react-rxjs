@@ -1,0 +1,126 @@
+deploy-v1-ui-dev:
+  stage: deploy-dev
+  environment:
+    name: dev-v1-UI
+  variables:
+    DEPLOY_ENVS: dev
+  script:
+    - pnpm run aws:cdk:clean:deploy
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+deploy-v1-ui-lab:
+  stage: deploy-lab
+  when: manual
+  environment:
+    name: lab-v1-UI
+  variables:
+    DEPLOY_ENVS: lab
+  script:
+    - pnpm run aws:cdk:clean:deploy
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED != "true"
+deploy-v1-ui-local:
+  stage: deploy-dev
+  environment:
+    name: localdev-v1-UI
+  variables:
+    DEPLOY_ENVS: local
+  script:
+    - pnpm run aws:cdk:clean:deploy
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+deploy-v1-ui-prod:
+  stage: deploy-prod
+  environment:
+    name: prod-v1-UI
+  variables:
+    DEPLOY_ENVS: prod
+  script:
+    - pnpm run aws:cdk:clean:deploy
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+destroy-v1-ui-dev:
+  stage: destroy-envs
+  when: manual
+  environment:
+    name: dev-v1-UI
+  variables:
+    DEPLOY_ENVS: dev
+  script:
+    - pnpm run aws:cdk:clean:destroy
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+destroy-v1-ui-lab:
+  stage: destroy-envs
+  when: manual
+  environment:
+    name: lab-v1-UI
+  variables:
+    DEPLOY_ENVS: lab
+  script:
+    - pnpm run aws:cdk:clean:destroy
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED != "true"
+destroy-v1-ui-local:
+  stage: destroy-envs
+  when: manual
+  environment:
+    name: localdev-v1-UI
+  variables:
+    DEPLOY_ENVS: local
+  script:
+    - pnpm run aws:cdk:clean:destroy
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+destroy-v1-ui-prod:
+  stage: destroy-envs
+  when: manual
+  environment:
+    name: prod-v1-UI
+  variables:
+    DEPLOY_ENVS: prod
+  script:
+    - pnpm run aws:cdk:clean:destroy
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+synth-v1-ui-dev:
+  stage: synth-envs
+  environment:
+    name: dev-v1-UI
+  variables:
+    DEPLOY_ENVS: dev
+  script:
+    - pnpm run aws:cdk:clean:synth
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+synth-v1-ui-lab:
+  stage: synth-envs
+  when: manual
+  environment:
+    name: lab-v1-UI
+  variables:
+    DEPLOY_ENVS: lab
+  script:
+    - pnpm run aws:cdk:clean:synth
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED != "true"
+synth-v1-ui-local:
+  stage: synth-envs
+  environment:
+    name: localdev-v1-UI
+  variables:
+    DEPLOY_ENVS: local
+  script:
+    - pnpm run aws:cdk:clean:synth
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+synth-v1-ui-prod:
+  stage: synth-envs
+  environment:
+    name: prod-v1-UI
+  variables:
+    DEPLOY_ENVS: prod
+  script:
+    - pnpm run aws:cdk:clean:synth
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"

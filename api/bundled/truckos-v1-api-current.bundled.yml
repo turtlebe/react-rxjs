@@ -1,0 +1,2084 @@
+openapi: 3.0.2
+info:
+  title: TruckOS API
+  version: '1.0'
+servers:
+  - url: 'https://api.server.test/v1'
+  - url: 'http://127.0.0.1:4010'
+paths:
+  /company/previous-companies:
+    get:
+      summary: Get the list of previous company names and ids
+      operationId: getPreviousCompanies
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompanyName'
+              examples:
+                jsonObject:
+                  value:
+                    - companyId: company1
+                      companyName: Monster AG
+                    - companyId: company2
+                      companyName: Awesome Company
+                    - companyId: company3
+                      companyName: Trucking R Us
+  '/company/{companyId}':
+    get:
+      summary: Get company basic details
+      operationId: getCompany
+      tags:
+        - Company
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Company'
+  /file-upload:
+    post:
+      summary: Get a file upload id and link
+      operationId: getFileUploadInfo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: string
+                contentType:
+                  type: string
+              required:
+                - filename
+                - contentType
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileUploadInfoResponse'
+  '/file-download/{id}':
+    get:
+      summary: Get a download url for the upload id provided
+      operationId: getDownloadLink
+      parameters:
+        - name: id
+          in: path
+          description: Upload id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uploadId:
+                    type: string
+                  filename:
+                    type: string
+                  url:
+                    type: string
+                required:
+                  - uploadId
+                  - filename
+                  - url
+                example:
+                  uploadId: upload123
+                  filename: TruckOS-Special-Conditions-DE.pdf
+                  url: /files/TruckOS-Special-Conditions-DE.pdf
+  /admin/companies:
+    get:
+      summary: Get all companies registered in TOS
+      operationId: getAllCompanies
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isEnd:
+                    type: boolean
+                  companies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RegisteredCompany'
+                required:
+                  - companies
+                  - isEnd
+                example:
+                  isEnd: false
+                  companies:
+                    - companyId: company1
+                      companyName: Monster AG
+                      kycStatus: complete
+                    - companyId: company2
+                      companyName: Awesome Company
+                      kycStatus: complete
+                    - companyId: company3
+                      companyName: ABC GmbH
+                      kycStatus: complete
+        '204':
+          description: No-content
+  /admin/attached-companies:
+    get:
+      summary: Get attached companies
+      operationId: getAttachedCompanies
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isEnd:
+                    type: boolean
+                  attachedCompanies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AttachedCompany'
+                required:
+                  - attachedCompanies
+                  - isEnd
+                example:
+                  isEnd: false
+                  attachedCompanies:
+                    - companyId: company1
+                      companyName: Monster AG
+                      attachedUntil: '2023-04-30T00:00:00.000Z'
+                      role: support_admin
+                    - companyId: company2
+                      companyName: Awesome Company
+                      attachedUntil: '2023-08-31T00:00:00.000Z'
+                      role: support_admin
+        '204':
+          description: No-content
+  '/admin/attached-company/{companyId}':
+    post:
+      summary: Attach company to the user
+      operationId: attachCompany
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: attach data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - role
+                - attachedUntil
+              properties:
+                attachedUntil:
+                  type: string
+                role:
+                  type: string
+                  enum:
+                    - beneficial_owner
+                    - support_admin
+                    - finance
+                    - driver
+                    - legal_representative
+              example:
+                attachedUntil: '2023-04-30T00:00:00.000Z'
+                role: support_admin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+        '400':
+          description: Invalid form data
+    delete:
+      summary: Attach company to the user
+      operationId: removeAttachedCompany
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: OK
+        '404':
+          description: Not found
+        '409':
+          description: Cannot delete
+  /kyc/new:
+    get:
+      summary: Get a new kyc company id
+      operationId: getNewKycCompanyId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                required:
+                  - id
+              example:
+                id: kyc-abc-123
+  '/kyc/{companyId}':
+    get:
+      summary: Get the status of the kyc flow
+      operationId: getKycWorkflowStatus
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowStatus'
+              example:
+                status: in_progress
+                progress: 2
+        '204':
+          description: No-content
+  '/kyc/{companyId}/business-data':
+    get:
+      summary: Get the business data form along with already submitted form entries
+      operationId: getKycBusinessDataFormInit
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KycBusinessData'
+        '204':
+          description: No-content
+    post:
+      summary: Submit business data form values
+      operationId: postKycBusinessDataForm
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The form data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - form
+              properties:
+                form:
+                  $ref: '#/components/schemas/KycBusinessData'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+        '400':
+          description: Invalid form data
+  '/kyc/{companyId}/bank-account':
+    get:
+      summary: Get the bank account form along with already submitted form entries
+      operationId: getKycBankAccountFormInit
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KycBankAccount'
+        '204':
+          description: No-content
+    post:
+      summary: Submit bank account form values
+      operationId: postKycBankAccountForm
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The form data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - form
+              properties:
+                form:
+                  $ref: '#/components/schemas/KycBankAccount'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+        '400':
+          description: Invalid form data
+  /kyc/virtual-iban:
+    get:
+      summary: Get the virtual iban data from Walbing api
+      operationId: getKycVirtualIban
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VirtualIban'
+        '204':
+          description: No-content
+  '/kyc/{companyId}/legal-representatives':
+    get:
+      summary: Get the legal representatives form along with already submitted form entries
+      operationId: getKycLegalRepresentativesFormInit
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KycLegalRepresentatives'
+        '204':
+          description: No-content
+    post:
+      summary: Submit legal representatives form values
+      operationId: postKycLegalRepresentativesForm
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The form data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - form
+              properties:
+                form:
+                  $ref: '#/components/schemas/KycLegalRepresentatives'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+        '400':
+          description: Invalid form data
+  '/kyc/{companyId}/beneficial-owners':
+    get:
+      summary: Get the beneficial owners form along with already submitted form entries
+      operationId: getKycBeneficialOwnersFormInit
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KycBeneficialOwners'
+        '204':
+          description: No-content
+    post:
+      summary: Submit beneficial owners form values
+      operationId: postKycBeneficialOwnersForm
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The form data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - form
+              properties:
+                form:
+                  $ref: '#/components/schemas/KycBeneficialOwners'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+        '400':
+          description: Invalid form data
+  '/company/{companyId}/account-details':
+    get:
+      summary: Get the company account details
+      operationId: getCompanyAccountDetails
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyAccountDetails'
+        '204':
+          description: No content
+  '/company/{companyId}/create-payment/new':
+    get:
+      summary: Get a new payment workflow id
+      operationId: getNewPaymentWorkflowId
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                required:
+                  - id
+              example:
+                id: payment-abc-123
+  '/company/{companyId}/create-payment/{paymentId}':
+    get:
+      summary: Get the payment workflow data for the id
+      operationId: getPaymentWorkflowStatus
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: paymentId
+          in: path
+          description: Payment id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowStatus'
+              example:
+                progress: 0
+                status: new
+        '204':
+          description: No-content
+  '/company/{companyId}/create-payment/{paymentId}/customer-information':
+    get:
+      summary: Get the customer information form along with already submitted form entries
+      operationId: getPaymentsCustomerInformationFormInit
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: paymentId
+          in: path
+          description: Payment id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentsCustomerInformation'
+        '204':
+          description: No-content
+    post:
+      summary: Submit customer information form values
+      operationId: postPaymentsCustomerInformationForm
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: paymentId
+          in: path
+          description: Payment id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The form data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - form
+              properties:
+                form:
+                  $ref: '#/components/schemas/PaymentsCustomerInformation'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+        '400':
+          description: Invalid form data
+  '/company/{companyId}/create-payment/{paymentId}/customer-contact':
+    get:
+      summary: Get the customer contact form along with already submitted form entries
+      operationId: getPaymentsCustomerContactFormInit
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: paymentId
+          in: path
+          description: Payment id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentsCustomerContact'
+        '204':
+          description: No-content
+    post:
+      summary: Submit customer contact form values
+      operationId: postPaymentsCustomerContactForm
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: paymentId
+          in: path
+          description: Payment id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The form data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - form
+              properties:
+                form:
+                  $ref: '#/components/schemas/PaymentsCustomerContact'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+        '400':
+          description: Invalid form data
+  '/company/{companyId}/create-payment/{paymentId}/payment-details':
+    get:
+      summary: Get the payment details form along with already submitted form entries
+      operationId: getPaymentsPaymentDetailsFormInit
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: paymentId
+          in: path
+          description: Payment id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentsPaymentDetails'
+              example:
+                clearingSystem: invoice
+                invoiceOrCreditNoteNumber: 2022-238
+                deliveryDate: '2022-08-11T00:00:00.000Z'
+                invoiceOrCreditNoteDate: '2022-10-11T00:00:00.000Z'
+                applicableLaw: DE
+                paymentTerm: 45
+                amount: 1325.45
+        '204':
+          description: No-content
+    post:
+      summary: Submit payment details form values
+      operationId: postPaymentsPaymentDetailsForm
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: paymentId
+          in: path
+          description: Payment id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The form data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - form
+              properties:
+                form:
+                  $ref: '#/components/schemas/PaymentsPaymentDetails'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+        '400':
+          description: Invalid form data
+  '/company/{companyId}/create-payment/{paymentId}/upload-documents':
+    get:
+      summary: Get the upload documents form along with already submitted form entries
+      operationId: getPaymentsUploadDocumentsFormInit
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: paymentId
+          in: path
+          description: Payment id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentsUploadDocuments'
+        '204':
+          description: No-content
+    post:
+      summary: Submit upload documents form values
+      operationId: postPaymentsUploadDocumentsForm
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: paymentId
+          in: path
+          description: Payment id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The form data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - form
+              properties:
+                form:
+                  $ref: '#/components/schemas/PaymentsUploadDocuments'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+        '400':
+          description: Invalid form data
+  '/company/{companyId}/create-payment/{paymentId}/confirmation':
+    get:
+      summary: Get the final confirmation form data
+      operationId: getPaymentsConfirmationFormInit
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: paymentId
+          in: path
+          description: Payment id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentRequestDetail'
+              example:
+                requestId: request1234
+                clearingSystem: invoice
+                status: DRAFT
+                invoiceOrCreditNoteNumber: 2022-238
+                deliveryDate: '2022-08-11T00:00:00.000Z'
+                invoiceOrCreditNoteDate: '2022-10-11T00:00:00.000Z'
+                amount: 1040
+                paymentTerm: 45
+                payoutDate: '2022-11-03T00:00:00.000Z'
+                factoringFee: 0.015
+                payoutAmount: 1003.6
+                documents:
+                  - name: invoice
+                    filename: Invoice_Wolfrum_2022-283_for_factoring.pdf
+                    uploadId: up123
+                  - name: proof_of_delivery
+                    filename: POD_Wolfrum_2022-283_for_factoring.pdf
+                    uploadId: up234
+                customer:
+                  companyId: company1
+                  companyName: DB Schenker
+                  streetAndNumber: Lyonder Str. 15
+                  postcode: '60152'
+                  city: Frankfurt am Main
+                  contactId: contact1
+                  contactName: Michaela Muller
+                  email: m.mueller@dbschenker.de
+                  phoneNumber: '+49089386523'
+        '204':
+          description: No-content
+    post:
+      summary: Submit confirmation form values
+      operationId: postPaymentsConfirmationForm
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: paymentId
+          in: path
+          description: Payment id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                confirm:
+                  type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+  '/company/{companyId}/payments/balances':
+    get:
+      summary: Get the account payment balances
+      operationId: getPaymentBalances
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentBalances'
+  '/company/{companyId}/payments/list':
+    get:
+      summary: Get the payments list
+      operationId: getPaymentsList
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: fromTime
+          in: query
+          description: Timestamp to load the payments from
+          required: true
+          schema:
+            type: number
+        - name: count
+          in: query
+          description: Number of payments to load
+          required: true
+          schema:
+            type: number
+        - name: search
+          in: query
+          description: Text search value
+          required: false
+          schema:
+            type: string
+        - name: index
+          in: query
+          description: The index to load from
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isEnd:
+                    type: boolean
+                  userHasRequests:
+                    type: boolean
+                  requests:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PaymentRequestSummary'
+                required:
+                  - isEnd
+                  - userHasRequests
+                  - requests
+              example:
+                isEnd: false
+                userHasRequests: true
+                requests:
+                  - requestId: request111
+                    sortIndex: 0
+                    status: IN_SETTLEMENT
+                    deliveryDate: '2022-08-11T00:00:00.000Z'
+                    amount: 1040
+                    debtorName: DHL Supply Chain
+                  - requestId: request112
+                    sortIndex: 1
+                    status: DRAFT
+                    amount: 1089
+                    debtorName: DHL Supply Chain
+                  - requestId: request114
+                    sortIndex: 2
+                    status: REVOKED
+                    deliveryDate: '2022-08-11T00:00:00.000Z'
+                    amount: 1000
+                    debtorName: DHL Supply Chain
+                  - requestId: request115
+                    sortIndex: 3
+                    status: IN_COLLECTION
+                    deliveryDate: '2022-08-11T00:00:00.000Z'
+                    amount: 1040
+                    debtorName: DHL Supply Chain
+                  - requestId: request116
+                    sortIndex: 4
+                    status: PAID_TO_CARRIER
+                    deliveryDate: '2022-08-11T00:00:00.000Z'
+                    amount: 1040
+                    debtorName: DB Schenker
+  '/company/{companyId}/payment/{requestId}':
+    delete:
+      summary: Delete the payment request
+      operationId: deletePaymentRequest
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: requestId
+          description: Request id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: OK
+        '404':
+          description: Not found
+        '409':
+          description: Cannot delete
+    get:
+      summary: Get the payment request details
+      operationId: getPaymentRequest
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: requestId
+          description: Request id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentRequestDetail'
+        '404':
+          description: Not found
+  '/company/{companyId}/create-order/{orderId}':
+    get:
+      summary: Get the order workflow data for the id
+      operationId: getOrderWorkflowStatus
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: orderId
+          in: path
+          description: Order id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowStatus'
+              example:
+                progress: 0
+                status: new
+        '204':
+          description: No-contents
+  /ref-data/company-names:
+    get:
+      summary: Get the list of company names and ids
+      operationId: getCompanyNames
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompanyName'
+              examples:
+                jsonObject:
+                  value:
+                    - companyId: company1
+                      companyName: Monster AG
+                    - companyId: company2
+                      companyName: Awesome Company
+                    - companyId: company3
+                      companyName: Trucking R Us
+                    - companyId: company4
+                      companyName: A to B By Truck
+                    - companyId: company5
+                      companyName: Müller Transporte GmbH
+                    - companyId: company5
+                      companyName: Schmidt Baustoffe AG
+components:
+  schemas:
+    big-decimal:
+      type: string
+    RegisteredCompany:
+      type: object
+      required:
+        - companyId
+        - companyName
+        - kycStatus
+      properties:
+        companyId:
+          type: string
+        companyName:
+          type: string
+        kycStatus:
+          type: string
+          enum:
+            - complete
+            - in_progress
+      example:
+        companyId: company1
+        companyName: Monster AG
+        kycStatus: complete
+    AttachedCompany:
+      type: object
+      required:
+        - companyId
+        - companyName
+        - role
+        - attachedUntil
+      properties:
+        companyId:
+          type: string
+        companyName:
+          type: string
+        attachedUntil:
+          type: string
+        role:
+          type: string
+          enum:
+            - beneficial_owner
+            - support_admin
+            - finance
+            - driver
+            - legal_representative
+      example:
+        companyId: company1
+        companyName: Monster AG
+        attachedUntil: '2023-04-30T00:00:00.000Z'
+        role: support_admin
+    AttachRequestData:
+      type: object
+      required:
+        - role
+        - attachedUntil
+      properties:
+        attachedUntil:
+          type: string
+        role:
+          type: string
+          enum:
+            - beneficial_owner
+            - support_admin
+            - finance
+            - driver
+            - legal_representative
+      example:
+        - attachedUntil: '2023-04-30T00:00:00.000Z'
+          role: support_admin
+    PaymentRequestStatus:
+      type: string
+      enum:
+        - DENIED
+        - DRAFT
+        - IN_COLLECTION
+        - IN_SETTLEMENT
+        - PAID_TO_CARRIER
+        - REVOKED
+        - SETTLEMENT_OVERDUE
+        - SETTLED
+        - SOLD
+        - SUBMITTED
+        - UNKNOWN
+        - UNPAID_TO_BUYER
+    OrderStatus:
+      type: string
+      enum:
+        - CREATED
+        - DELIVERED
+        - WAITING_FOR_PAYMENT
+        - PAID
+        - OVERDUE
+        - IN_COLLECTION
+        - WRITEOFF
+    OrderStatusDetails:
+      type: object
+      properties:
+        orderConfirmationDate:
+          type: string
+        orderCompletionDate:
+          type: string
+        invoiceAndOrPodSentDate:
+          type: string
+        creditNoteReceivedDate:
+          type: string
+        paymentReceivedDate:
+          type: string
+    SimpleCompany:
+      type: object
+      description: Simple German Company
+      required:
+        - companyType
+        - country
+        - address
+        - legalForm
+        - registrationAuthority
+        - commercialRegisterNumber
+        - vatId
+      properties:
+        companyType:
+          type: string
+        country:
+          type: string
+        registrationAuthority:
+          type: string
+        legalForm:
+          type: string
+        commercialRegisterNumber:
+          type: string
+        vatId:
+          type: string
+        address:
+          type: object
+          properties:
+            addressAddon:
+              type: string
+            city:
+              type: string
+            postcode:
+              type: string
+            streetAndNumber:
+              type: string
+          required:
+            - city
+            - postcode
+            - streetAndNumber
+    CompanyContact:
+      type: object
+      required:
+        - contactId
+        - contactName
+        - email
+        - phoneNumber
+      properties:
+        contactId:
+          type: string
+        contactName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+    CompanyContactDetails:
+      type: object
+      required:
+        - phoneNumber
+      properties:
+        email:
+          type: string
+        phoneNumber:
+          type: string
+    Company:
+      type: object
+      required:
+        - companyId
+        - companyName
+        - contacts
+        - details
+        - creditWorthness
+      properties:
+        companyId:
+          type: string
+          example: 1234-asdags-12312
+        companyName:
+          type: string
+        creditWorthness:
+          type: string
+          example: low
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanyContact'
+        contactDetails:
+          $ref: '#/components/schemas/CompanyContactDetails'
+        details:
+          oneOf:
+            - $ref: '#/components/schemas/SimpleCompany'
+          discriminator:
+            propertyName: companyType
+            mapping:
+              SimpleCompany: '#/components/schemas/SimpleCompany'
+      example:
+        companyId: company1
+        companyName: Monster AG
+        creditWorthness: low
+        details:
+          companyType: SimpleCompany
+          commercialRegisterNumber: HRA162345
+          country: DE
+          legalForm: DE0001
+          registrationAuthority: RADE0001
+          vatId: DE912345678
+          address:
+            addressAddon: Loft 2
+            city: München
+            streetAndNumber: Luisenstr. 51
+            postcode: '80333'
+        contactDetails:
+          phoneNumber: '+490123456789'
+          email: foo@bar.de
+        contacts:
+          - contactId: contact1
+            contactName: Anne Meier
+            email: anne@truck-os.de
+            phoneNumber: '+49123456789'
+          - contactId: contact2
+            contactName: Oliver Denney
+            email: oliver@truck-os.de
+            phoneNumber: '+447904123456'
+    CompanyAccountDetails:
+      type: object
+      properties:
+        companyId:
+          type: string
+        businessData:
+          $ref: '#/components/schemas/KycBusinessData'
+        bankAccount:
+          $ref: '#/components/schemas/KycBankAccount'
+        virtualIban:
+          $ref: '#/components/schemas/VirtualIban'
+        legalRepresentatives:
+          $ref: '#/components/schemas/KycLegalRepresentatives'
+        beneficialOwners:
+          $ref: '#/components/schemas/KycBeneficialOwners'
+        kycStatus:
+          type: string
+          enum:
+            - complete
+            - in_progress
+            - orderbook_data_complete
+      required:
+        - companyId
+        - businessData
+        - bankAccount
+        - virtualIban
+        - legalRepresentatives
+        - beneficialOwners
+        - kycStatus
+    WorkflowStatus:
+      type: object
+      properties:
+        progress:
+          type: number
+        status:
+          type: string
+          enum:
+            - new
+            - complete
+            - in_progress
+      required:
+        - progress
+        - status
+    OrderSummary:
+      type: object
+      properties:
+        orderId:
+          type: string
+        sortIndex:
+          type: number
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+        deliveryDate:
+          type: string
+        amount:
+          type: number
+        customerName:
+          type: string
+      required:
+        - orderId
+        - sortIndex
+        - status
+        - customerName
+      example:
+        orderId: order123
+        sortIndex: 0
+        status: CREATED
+        deliveryDate: '2022-08-11T00:00:00.000Z'
+        amount: 1040
+        customerName: DHL Supply Chain
+    PaymentBalances:
+      type: object
+      properties:
+        open:
+          type: number
+        received:
+          type: number
+      required:
+        - open
+        - received
+      example:
+        open: 2080
+        received: 5890.13
+    PaymentRequestSummary:
+      type: object
+      properties:
+        requestId:
+          type: string
+        sortIndex:
+          type: number
+        status:
+          $ref: '#/components/schemas/PaymentRequestStatus'
+        deliveryDate:
+          type: string
+        amount:
+          type: number
+        debtorName:
+          type: string
+      required:
+        - requestId
+        - sortIndex
+        - status
+        - debtorName
+      example:
+        requestId: request123
+        sortIndex: 0
+        status: IN_SETTLEMENT
+        deliveryDate: '2022-08-11T00:00:00.000Z'
+        amount: 1040
+        debtorName: DHL Supply Chain
+    PaymentRequestDetail:
+      type: object
+      required:
+        - requestId
+        - status
+        - clearingSystem
+        - invoiceOrCreditNoteNumber
+        - deliveryDate
+        - invoiceOrCreditNoteDate
+        - amount
+        - paymentTerm
+        - payoutDate
+        - factoringFee
+        - payoutAmount
+        - documents
+        - customerInformation
+        - customerContact
+      properties:
+        requestId:
+          type: string
+        status:
+          $ref: '#/components/schemas/PaymentRequestStatus'
+        clearingSystem:
+          type: string
+          enum:
+            - invoice
+            - credit_note
+        invoiceOrCreditNoteNumber:
+          type: string
+        deliveryDate:
+          type: string
+        invoiceOrCreditNoteDate:
+          type: string
+        amount:
+          type: number
+        paymentTerm:
+          type: number
+        payoutDate:
+          type: string
+        factoringFee:
+          type: number
+        payoutAmount:
+          type: number
+        documents:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                enum:
+                  - invoice
+                  - credit_note
+                  - proof_of_delivery
+              uploadId:
+                type: string
+              filename:
+                type: string
+            required:
+              - name
+              - filename
+              - uploadId
+        customerInformation:
+          $ref: '#/components/schemas/PaymentsCustomerInformation'
+        customerContact:
+          $ref: '#/components/schemas/PaymentsCustomerContact'
+      example:
+        requestId: request1234
+        clearingSystem: invoice
+        status: SOLD
+        invoiceOrCreditNoteNumber: 2022-238
+        deliveryDate: '2022-08-11T00:00:00.000Z'
+        invoiceOrCreditNoteDate: '2022-10-11T00:00:00.000Z'
+        amount: 1040
+        paymentTerm: 45
+        payoutDate: '2022-11-03T00:00:00.000Z'
+        factoringFee: 0.015
+        payoutAmount: 1003.6
+        documents:
+          - name: invoice
+            filename: Invoice_Wolfrum_2022-283_for_factoring.pdf
+            uploadId: up123
+          - name: proof_of_delivery
+            filename: POD_Wolfrum_2022-283_for_factoring.pdf
+            uploadId: up234
+        customerInformation:
+          companyId: company1
+          companyName: DB Schenker
+          streetAndNumber: Lyonder Str. 15
+          postcode: '60152'
+          city: Frankfurt am Main
+        customerContact:
+          contactId: contact1
+          contactName: Michaela Muller
+          email: m.mueller@dbschenker.de
+          phoneNumber: '+49089386523'
+    OrderDetail:
+      type: object
+      required:
+        - orderId
+        - status
+      properties:
+        orderId:
+          type: string
+        clearingSystem:
+          type: string
+          enum:
+            - invoice
+            - credit_note
+        status:
+          $ref: '#/components/schemas/OrderStatusDetails'
+        customerInformation:
+          $ref: '#/components/schemas/PaymentsCustomerInformation'
+        customerContact:
+          $ref: '#/components/schemas/PaymentsCustomerContact'
+        customerOrderNumber:
+          type: string
+        loadingDetails:
+          $ref: '#/components/schemas/LoadingDetails'
+        unloadingDetails:
+          $ref: '#/components/schemas/LoadingDetails'
+        loadDescription:
+          type: string
+        servicesDetails:
+          $ref: '#/components/schemas/ServiceDetails'
+        stipulations:
+          type: array
+          items:
+            type: string
+        documents:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                enum:
+                  - order
+                  - order_confirmation
+                  - proof_of_delivery
+                  - invoice
+                  - credit_note
+              uploadId:
+                type: string
+              filename:
+                type: string
+            required:
+              - name
+              - filename
+              - uploadId
+      example:
+        orderId: order1234
+        clearingSystem: invoice
+        status:
+          orderConfirmationDate: '2023-02-01'
+          orderCompletionDate: '2023-02-04'
+          invoiceAndOrPodSentDate: '2023-02-04'
+          creditNoteReceivedDate: '2023-02-05'
+          paymentReceivedDate: '2023-03-04'
+        customerInformation:
+          companyId: company1
+          companyName: DB Schenker
+          streetAndNumber: Lyonder Str. 15
+          postcode: '60152'
+          city: Frankfurt am Main
+        customerContact:
+          contactId: contact1
+          contactName: Michaela Muller
+          email: m.mueller@dbschenker.de
+          phoneNumber: '+49089386523'
+        customerOrderNumber: KN22-6782
+        loadingDetails:
+          date: '2023-02-04T16:00:00.000Z'
+          venue:
+            venueId: venue12345
+            CompanyName: Südost Fruchtkontor
+            Street: Luisenstr. 51
+            City: München
+            PostalCode: '80803'
+        unloadingDetails:
+          date: '2022-11-03T00:00:00.000Z'
+          venue:
+            venueId: venue12345
+            CompanyName: Nordwest Fruchtkontor
+            Street: Große Bleichen 33
+            City: Hamburg
+            PostalCode: '20354'
+        loadDescription: 50 Paletten Bananen
+        servicesDetails:
+          paymentTerm: 45
+          currency: EUR
+          services:
+            - service: Freight transport
+              netAmount: 1003.6
+            - service: 20x Pallets
+              netAmount: 200
+        stipulations:
+          - This is the first stipulation
+          - This is stipulation 2
+        documents:
+          - name: invoice
+            filename: Invoice_Wolfrum_2022-283_for_factoring.pdf
+            uploadId: up123
+          - name: proof_of_delivery
+            filename: POD_Wolfrum_2022-283_for_factoring.pdf
+            uploadId: up234
+    LoadingDetails:
+      type: object
+      properties:
+        date:
+          type: string
+        venue:
+          $ref: '#/components/schemas/Venue'
+      required:
+        - date
+        - venue
+      example:
+        date: '2022-11-03T00:00:00.000Z'
+        venue:
+          venueId: venue12345
+          CompanyName: Südost Fruchtkontor
+          Street: Luisenstr. 51
+          City: München
+          PostalCode: '80803'
+    Venue:
+      type: object
+      properties:
+        venueId:
+          type: string
+        CompanyName:
+          type: string
+        Street:
+          type: string
+        City:
+          type: string
+        PostalCode:
+          type: string
+      required:
+        - City
+        - PostalCode
+      example:
+        venueId: venue12345
+        CompanyName: Südost Fruchtkontor
+        Street: Luisenstr. 51
+        City: München
+        PostalCode: '80803'
+    ServiceDetails:
+      type: object
+      properties:
+        paymentTerm:
+          type: integer
+        currency:
+          type: string
+        services:
+          type: array
+          items:
+            type: object
+            properties:
+              service:
+                type: string
+              netAmount:
+                type: number
+            required:
+              - service
+              - netAmount
+      example:
+        paymentTerm: 45
+        currency: EUR
+        services:
+          - service: Freight transport
+            netAmount: 1003.6
+          - service: 20x Pallets
+            netAmount: 200
+    CompanyName:
+      type: object
+      properties:
+        companyId:
+          type: string
+        companyName:
+          type: string
+      required:
+        - companyId
+        - companyName
+    CompanyBase:
+      type: object
+      properties:
+        companyId:
+          type: string
+        companyName:
+          type: string
+        kycStatus:
+          type: string
+          enum:
+            - complete
+            - in_progress
+            - orderbook_data_complete
+      required:
+        - companyId
+        - companyName
+        - kycStatus
+    KycBusinessData:
+      type: object
+      properties:
+        addressAddon:
+          type: string
+        city:
+          type: string
+        commercialRegisterNumber:
+          type: string
+        companyName:
+          type: string
+        country:
+          type: string
+        legalForm:
+          type: string
+        phoneNumber:
+          type: string
+        postcode:
+          type: string
+        registrationAuthority:
+          type: string
+        streetAndNumber:
+          type: string
+        vatId:
+          type: string
+        businessLicenseUploadId:
+          type: string
+        businessLicenseFilename:
+          type: string
+      required:
+        - city
+        - commercialRegisterNumber
+        - companyName
+        - country
+        - legalForm
+        - phoneNumber
+        - postcode
+        - registrationAuthority
+        - streetAndNumber
+        - vatId
+      example:
+        addressAddon: Loft 2
+        city: München
+        commercialRegisterNumber: HRA162345
+        companyName: Monster AG
+        country: DE
+        legalForm: DE0001
+        phoneNumber: '+49123456789'
+        postcode: '80333'
+        registrationAuthority: RADE0001
+        streetAndNumber: Luisenstr. 51
+        vatId: DE912345678
+        businessLicenseFilename: something.pdf
+        businessLicenseUploadId: ABCSDS
+    KycBankAccount:
+      type: object
+      properties:
+        authorization:
+          type: boolean
+        bic:
+          type: string
+        iban:
+          type: string
+      required:
+        - authorization
+        - bic
+        - iban
+      example:
+        bic: SSKMDEMM
+        iban: DE89 3704 0044 0532 0130 00
+        authorization: true
+    VirtualIban:
+      type: object
+      properties:
+        bic:
+          type: string
+        iban:
+          type: string
+        recipient:
+          type: string
+      required:
+        - bic
+        - iban
+        - recipient
+      example:
+        bic: SSKMDEMM
+        iban: DE89 3704 0044 0532 0130 00
+        recipient: Wonka Transporte GmbH via Walbing
+    KycLegalRepresentatives:
+      type: object
+      properties:
+        areYouLegalRepresentative:
+          type: boolean
+        powerOfRepresentation:
+          type: string
+          enum:
+            - sole
+            - joint
+        representatives:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            properties:
+              firstName:
+                type: string
+              lastName:
+                type: string
+              email:
+                type: string
+              dob:
+                type: string
+              language:
+                type: string
+            required:
+              - firstName
+              - lastName
+              - email
+              - dob
+              - language
+      required:
+        - areYouLegalRepresentative
+        - powerOfRepresentation
+        - representatives
+      example:
+        areYouLegalRepresentative: true
+        powerOfRepresentation: sole
+        representatives:
+          - firstName: John
+            lastName: Gelt
+            email: john@galt.com
+            dob: '1985-12-27T00:00:00.000Z'
+            language: en_US
+    KycBeneficialOwners:
+      type: object
+      properties:
+        beneficialOwners:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            properties:
+              firstName:
+                type: string
+              lastName:
+                type: string
+              dob:
+                type: string
+              placeOfBirth:
+                type: string
+              nationality:
+                type: string
+              streetAndNumber:
+                type: string
+              postcode:
+                type: string
+              city:
+                type: string
+              country:
+                type: string
+            required:
+              - firstName
+              - lastName
+              - dob
+              - placeOfBirth
+              - nationality
+              - streetAndNumber
+              - postcode
+              - city
+              - country
+      required:
+        - beneficialOwners
+      example:
+        beneficialOwners:
+          - firstName: John
+            lastName: Galt
+            city: Hamburg
+            country: DE
+            dob: '1985-12-27T00:00:00.000Z'
+            nationality: DE
+            placeOfBirth: Bremen
+            postcode: '20384'
+            streetAndNumber: Am Wacker 23
+    PaymentsCustomerContact:
+      type: object
+      properties:
+        contactId:
+          type: string
+        contactName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+      required:
+        - contactId
+      example:
+        contactId: contact1
+    PaymentsCustomerInformation:
+      type: object
+      properties:
+        addressAddon:
+          type: string
+        city:
+          type: string
+        commercialRegisterNumber:
+          type: string
+        companyId:
+          type: string
+        companyName:
+          type: string
+        country:
+          type: string
+        legalForm:
+          type: string
+        postcode:
+          type: string
+        registrationAuthority:
+          type: string
+        streetAndNumber:
+          type: string
+        vatId:
+          type: string
+      required:
+        - companyId
+      example:
+        companyId: company1
+    PaymentsPaymentDetails:
+      type: object
+      properties:
+        clearingSystem:
+          type: string
+          enum:
+            - invoice
+            - credit_note
+        invoiceOrCreditNoteNumber:
+          type: string
+        deliveryDate:
+          type: string
+        invoiceOrCreditNoteDate:
+          type: string
+        applicableLaw:
+          type: string
+        paymentTerm:
+          type: integer
+        amount:
+          type: number
+      required:
+        - clearingSystem
+        - invoiceOrCreditNoteNumber
+        - deliveryDate
+        - invoiceOrCreditNoteDate
+        - applicableLaw
+        - paymentTerm
+        - amount
+    PaymentsUploadDocuments:
+      type: object
+      properties:
+        confirmInvoiceHasIban:
+          type: boolean
+        creditNoteFilename:
+          type: string
+        creditNoteUploadId:
+          type: string
+        invoiceFilename:
+          type: string
+        invoiceUploadId:
+          type: string
+        proofOfDeliveryFilename:
+          type: string
+        proofOfDeliveryUploadId:
+          type: string
+      example:
+        confirmInvoiceHasIban: true
+        invoiceFilename: invoice-1.pdf
+        invoiceUploadId: upload123
+        proofOfDeliveryFilename: delivery-2.pdf
+        proofOfDeliveryUploadId: upload345
+    FileUploadInfoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        link:
+          type: string
+      required:
+        - id
+        - link
+      example:
+        id: ABC123
+        link: 'https://truckos-dev-data-documentsbucket9ec9deb9-1dht08po0ke8p.s3.eu-west-1.amazonaws.com/local-dev/saintf/ui/uploads/b05bedf7-f20b-4a0a-9c43-876037f1cda0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA2EJ4VQTM7BGDS6CJ%2F20230301%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20230301T182802Z&X-Amz-Expires=259200&X-Amz-Signature=fcc168beb97a8223fb509684120489feeb15ef9ffbf4daff940c5c5e615e58be&X-Amz-SignedHeaders=host&x-id=PutObject'
+    KycStatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - Complete
+            - Pending
+            - InProgress
+            - NotStarted
+        progress:
+          type: integer
+          minimum: 1
+          maximum: 5
+      required:
+        - status

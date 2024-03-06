@@ -1,0 +1,11 @@
+account: localdev
+environmentType: DEV
+
+application:
+  #api:
+  #  apiUrl: http://127.0.0.1:4010
+  auth0:
+    clientId: g4hycJLrN1Ozxi46MofzWrkZaZDafnPs
+
+pipelines:
+  deployStage: dev

@@ -1,0 +1,6 @@
+account: dev
+environmentType: DEV
+
+application:
+  auth0:
+    clientId: L8hnUNJPTjPZTCmdflKwR8uFiq5ccqOK

@@ -1,0 +1,10 @@
+{
+  "API_URL": "${~application.api.apiUrl}",
+  "AUTH0_DOMAIN": "${~application.auth0.domain}",
+  "AUTH0_AUDIENCE": "${~application.auth0.audience}",
+  "AUTH0_CLIENT_ID": "${~application.auth0.clientId}",
+  "GOOGLE_MAPS_API_KEY": "${~application.googleMapsApiKey}",
+  "POSTHOG_API_KEY": "${~application.posthogApiKey}",
+  "POSTHOG_API_HOST": "${~application.posthogApiHost}",
+  "POSTHOG_ENABLED": "${~application.posthogEnabled}"
+}

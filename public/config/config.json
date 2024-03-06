@@ -1,0 +1,10 @@
+{
+  "API_URL": "https://api.localdev.truck-os.ninja/v1",
+  "AUTH0_DOMAIN": "login.localdev.truck-os.ninja",
+  "AUTH0_AUDIENCE": "https://api.localdev.truck-os.ninja",
+  "AUTH0_CLIENT_ID": "g4hycJLrN1Ozxi46MofzWrkZaZDafnPs",
+  "GOOGLE_MAPS_API_KEY": "AIzaSyDP1nlQWq1njNKFLbhajokZtEwmymHDJY0",
+  "POSTHOG_API_KEY": "phc_svCGCx1TJcBWwS1nnJz8aCWBy5uuZTNRYhDvaWvDNDc",
+  "POSTHOG_API_HOST": "https://eu.posthog.com",
+  "POSTHOG_ENABLED": "false"
+}

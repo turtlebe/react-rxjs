@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="72" failures="0" errors="0" time="16.618">
+  <testsuite name="[component] BankAccountForm" errors="0" failures="0" skipped="0" timestamp="2023-03-15T14:17:40" time="7.879" tests="4">
+    <testcase classname="[component] BankAccountForm validation validation IBAN should require IBAN" name="[component] BankAccountForm validation validation IBAN should require IBAN" time="0.545">
+    </testcase>
+    <testcase classname="[component] BankAccountForm validation validation IBAN should accept valid IBAN" name="[component] BankAccountForm validation validation IBAN should accept valid IBAN" time="0.647">
+    </testcase>
+    <testcase classname="[component] BankAccountForm validation validation BIC should require BIC" name="[component] BankAccountForm validation validation BIC should require BIC" time="0.09">
+    </testcase>
+    <testcase classname="[component] BankAccountForm validation validation BIC should accept valid BIC" name="[component] BankAccountForm validation validation BIC should accept valid BIC" time="0.271">
+    </testcase>
+  </testsuite>
+  <testsuite name="[component] LegalRepresentativesForm" errors="0" failures="0" skipped="0" timestamp="2023-03-15T14:17:40" time="11.961" tests="16">
+    <testcase classname="[component] LegalRepresentativesForm validation First name should require a value" name="[component] LegalRepresentativesForm validation First name should require a value" time="0.689">
+    </testcase>
+    <testcase classname="[component] LegalRepresentativesForm validation First name should accept a valid value" name="[component] LegalRepresentativesForm validation First name should accept a valid value" time="0.491">
+    </testcase>
+    <testcase classname="[component] LegalRepresentativesForm validation Last name should require a value" name="[component] LegalRepresentativesForm validation Last name should require a value" time="0.17">
+    </testcase>
+    <testcase classname="[component] LegalRepresentativesForm validation Last name should accept a valid value" name="[component] LegalRepresentativesForm validation Last name should accept a valid value" time="0.416">
+    </testcase>
+    <testcase classname="[component] LegalRepresentativesForm validation Email should require a value" name="[component] LegalRepresentativesForm validation Email should require a value" time="0.145">
+    </testcase>
+    <testcase classname="[component] LegalRepresentativesForm validation Email should reject an invalid email" name="[component] LegalRepresentativesForm validation Email should reject an invalid email" time="0.315">
+    </testcase>
+    <testcase classname="[component] LegalRepresentativesForm validation Email should accept a valid value" name="[component] LegalRepresentativesForm validation Email should accept a valid value" time="0.544">
+    </testcase>
+    <testcase classname="[component] LegalRepresentativesForm validation Date of birth should require a value" name="[component] LegalRepresentativesForm validation Date of birth should require a value" time="0.145">
+    </testcase>
+    <testcase classname="[component] LegalRepresentativesForm validation Date of birth should reject an date too young" name="[component] LegalRepresentativesForm validation Date of birth should reject an date too young" time="0.482">
+    </testcase>
+    <testcase classname="[component] LegalRepresentativesForm validation Date of birth should reject an date too old" name="[component] LegalRepresentativesForm validation Date of birth should reject an date too old" time="0.459">
+    </testcase>
+    <testcase classname="[component] LegalRepresentativesForm validation Date of birth should reject an invalid date" name="[component] LegalRepresentativesForm validation Date of birth should reject an invalid date" time="0.364">
+    </testcase>
+    <testcase classname="[component] LegalRepresentativesForm validation Date of birth should accept a valid value" name="[component] LegalRepresentativesForm validation Date of birth should accept a valid value" time="0.457">
+    </testcase>
+    <testcase classname="[component] LegalRepresentativesForm Representatives should show two representative forms when joint power selected" name="[component] LegalRepresentativesForm Representatives should show two representative forms when joint power selected" time="0.18">
+    </testcase>
+    <testcase classname="[component] LegalRepresentativesForm Representatives should show one representative when joint and then sole power selected" name="[component] LegalRepresentativesForm Representatives should show one representative when joint and then sole power selected" time="0.295">
+    </testcase>
+    <testcase classname="[component] LegalRepresentativesForm Representatives should add another representative when add button clicked" name="[component] LegalRepresentativesForm Representatives should add another representative when add button clicked" time="0.297">
+    </testcase>
+    <testcase classname="[component] LegalRepresentativesForm Representatives should remove the representative with the delete button" name="[component] LegalRepresentativesForm Representatives should remove the representative with the delete button" time="0.403">
+    </testcase>
+  </testsuite>
+  <testsuite name="[component] BusinessDataForm" errors="0" failures="0" skipped="0" timestamp="2023-03-15T14:17:40" time="14.27" tests="28">
+    <testcase classname="[component] BusinessDataForm validation City should require city" name="[component] BusinessDataForm validation City should require city" time="0.725">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation City should reject city with special characters" name="[component] BusinessDataForm validation City should reject city with special characters" time="0.655">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation City should reject city with numbers" name="[component] BusinessDataForm validation City should reject city with numbers" time="0.622">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation City should accept a city with German characters" name="[component] BusinessDataForm validation City should accept a city with German characters" time="0.375">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation City should accept a valid city input" name="[component] BusinessDataForm validation City should accept a valid city input" time="0.354">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Commercial register number should require commercial register number" name="[component] BusinessDataForm validation Commercial register number should require commercial register number" time="0.169">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Commercial register number should accept a valid commercial register number" name="[component] BusinessDataForm validation Commercial register number should accept a valid commercial register number" time="0.383">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Company name should require company name" name="[component] BusinessDataForm validation Company name should require company name" time="0.163">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Company name should accept a valid company name" name="[component] BusinessDataForm validation Company name should accept a valid company name" time="0.387">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Legal form should require legal form" name="[component] BusinessDataForm validation Legal form should require legal form" time="0.161">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Phone number should require phone number" name="[component] BusinessDataForm validation Phone number should require phone number" time="0.157">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Phone number should reject phone number less than 4 length" name="[component] BusinessDataForm validation Phone number should reject phone number less than 4 length" time="0.258">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Phone number should reject phone number that is invalid" name="[component] BusinessDataForm validation Phone number should reject phone number that is invalid" time="0.327">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Phone number should accept a valid phone number" name="[component] BusinessDataForm validation Phone number should accept a valid phone number" time="0.428">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Postcode should require postcode" name="[component] BusinessDataForm validation Postcode should require postcode" time="0.17">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Postcode should reject postcode with less than 3 length" name="[component] BusinessDataForm validation Postcode should reject postcode with less than 3 length" time="0.237">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Postcode should reject postcode with invalid characters" name="[component] BusinessDataForm validation Postcode should reject postcode with invalid characters" time="0.31">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Postcode should accept a valid postcode" name="[component] BusinessDataForm validation Postcode should accept a valid postcode" time="0.307">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Registration authority should require registration authority" name="[component] BusinessDataForm validation Registration authority should require registration authority" time="0.163">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Street, number should require street" name="[component] BusinessDataForm validation Street, number should require street" time="0.149">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Street, number should reject street with special characters" name="[component] BusinessDataForm validation Street, number should reject street with special characters" time="0.316">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Street, number should reject street with no numbers" name="[component] BusinessDataForm validation Street, number should reject street with no numbers" time="0.414">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Street, number should accept a valid street" name="[component] BusinessDataForm validation Street, number should accept a valid street" time="0.379">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Vat id should require vat id" name="[component] BusinessDataForm validation Vat id should require vat id" time="0.136">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm validation Vat id should accept a vat id" name="[component] BusinessDataForm validation Vat id should accept a vat id" time="0.346">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm business license should not show the upload button when legal form is not matching" name="[component] BusinessDataForm business license should not show the upload button when legal form is not matching" time="0.005">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm business license should disable the registration authority" name="[component] BusinessDataForm business license should disable the registration authority" time="0.048">
+    </testcase>
+    <testcase classname="[component] BusinessDataForm business license should disable the registration authority" name="[component] BusinessDataForm business license should disable the registration authority" time="0.043">
+    </testcase>
+  </testsuite>
+  <testsuite name="[component] BeneficialOwnersForm" errors="0" failures="0" skipped="0" timestamp="2023-03-15T14:17:40" time="14.388" tests="24">
+    <testcase classname="[component] BeneficialOwnersForm validation First name should require a value" name="[component] BeneficialOwnersForm validation First name should require a value" time="0.763">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation First name should accept a valid value" name="[component] BeneficialOwnersForm validation First name should accept a valid value" time="0.493">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Last name should require a value" name="[component] BeneficialOwnersForm validation Last name should require a value" time="0.211">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Last name should accept a valid value" name="[component] BeneficialOwnersForm validation Last name should accept a valid value" time="0.364">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Date of birth should require a value" name="[component] BeneficialOwnersForm validation Date of birth should require a value" time="0.187">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Date of birth should reject an date too young" name="[component] BeneficialOwnersForm validation Date of birth should reject an date too young" time="0.47">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Date of birth should reject an date too old" name="[component] BeneficialOwnersForm validation Date of birth should reject an date too old" time="0.439">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Date of birth should reject an invalid date" name="[component] BeneficialOwnersForm validation Date of birth should reject an invalid date" time="0.353">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Date of birth should accept a valid value" name="[component] BeneficialOwnersForm validation Date of birth should accept a valid value" time="0.405">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Place of birth should require place of birth" name="[component] BeneficialOwnersForm validation Place of birth should require place of birth" time="0.159">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Place of birth should reject place of birth with special characters" name="[component] BeneficialOwnersForm validation Place of birth should reject place of birth with special characters" time="0.459">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Place of birth should reject place of birth with numbers" name="[component] BeneficialOwnersForm validation Place of birth should reject place of birth with numbers" time="0.525">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Place of birth should accept a place of birth with German characters" name="[component] BeneficialOwnersForm validation Place of birth should accept a place of birth with German characters" time="0.37">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Place of birth should accept a valid place of birth input" name="[component] BeneficialOwnersForm validation Place of birth should accept a valid place of birth input" time="0.339">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Street, number should require street" name="[component] BeneficialOwnersForm validation Street, number should require street" time="0.148">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Street, number should reject street with special characters" name="[component] BeneficialOwnersForm validation Street, number should reject street with special characters" time="0.376">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Street, number should reject street with no numbers" name="[component] BeneficialOwnersForm validation Street, number should reject street with no numbers" time="0.475">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Street, number should accept a valid street input" name="[component] BeneficialOwnersForm validation Street, number should accept a valid street input" time="0.387">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Postcode should require postcode" name="[component] BeneficialOwnersForm validation Postcode should require postcode" time="0.136">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Postcode should reject postcode with less than 3 length" name="[component] BeneficialOwnersForm validation Postcode should reject postcode with less than 3 length" time="0.224">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Postcode should reject postcode with invalid characters" name="[component] BeneficialOwnersForm validation Postcode should reject postcode with invalid characters" time="0.299">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation Postcode should accept a valid postcode input" name="[component] BeneficialOwnersForm validation Postcode should accept a valid postcode input" time="0.271">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation beneficial owners should add another beneficial owner on clicking add" name="[component] BeneficialOwnersForm validation beneficial owners should add another beneficial owner on clicking add" time="0.106">
+    </testcase>
+    <testcase classname="[component] BeneficialOwnersForm validation beneficial owners should remove the beneficial owner on clicking remove" name="[component] BeneficialOwnersForm validation beneficial owners should remove the beneficial owner on clicking remove" time="0.187">
+    </testcase>
+  </testsuite>
+</testsuites>

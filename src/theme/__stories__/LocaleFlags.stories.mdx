@@ -1,0 +1,23 @@
+import { Meta, IconGallery, IconItem } from '@storybook/addon-docs';
+import { getFlagForLocale } from '../icons/locales';
+import { AppSetup } from '../../AppSetup';
+import { renderFlag } from './renderFlag';
+
+<Meta title="theme/Locale Flags" />
+
+# Locale Flags
+
+Get the flag React component for a locale by using the `getFlagForLocale` function, passing the locale as a parameter.
+
+E.g.
+
+```
+const Flag = getFlagForLocale('en-US')
+```
+
+<AppSetup>
+  <IconGallery>
+    <IconItem name="de-DE">{renderFlag('de-DE')}</IconItem>
+    <IconItem name="en-US">{renderFlag('en-US')}</IconItem>
+  </IconGallery>
+</AppSetup>

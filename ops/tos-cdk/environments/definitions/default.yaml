@@ -1,0 +1,31 @@
+## Required Identifiers for TOS-CDK
+environmentName: ${~envName}
+serviceName: v1-front-end
+applicationName: v1-UI
+
+environment:
+  baseDomain: ${~environment.accountDomain} #For the main environments, this is true
+
+application:
+  subDomain: app
+  api:
+    apiUrl: https://api.${~environment.baseDomain}/v1
+  auth0:
+    domain: login.${~environment.accountDomain}
+    audience: https://api.${~environment.baseDomain}
+  posthogApiHost: https://eu.posthog.com
+
+infra:
+  cloudfront:
+    distribution:
+      ##These error responses are required for single-page apps, and hence why not in defaults.
+      errorResponses:
+        reactRouterReroute:
+          httpStatus: 404
+          responseHttpStatus: 200
+          responsePagePath: /index.html
+
+pipelines:
+  protected: true
+  deployStage: ${~account}
+  manualDeploy: false

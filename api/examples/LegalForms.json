@@ -1,0 +1,66 @@
+[
+  { "elfCode": "2HBR", "name": "GmbH" },
+  {
+    "elfCode": "XXXX0001",
+    "name": "GmbH & Co. KG"
+  },
+  { "elfCode": "63KS", "name": "UG" },
+  {
+    "elfCode": "6QQB",
+    "name": "Aktiengesellschaft"
+  },
+  {
+    "elfCode": "T0YJ",
+    "name": "Kommanditgesellschaft auf Aktien"
+  },
+  {
+    "elfCode": "QZ3L",
+    "name": "eingetragener Verein"
+  },
+  {
+    "elfCode": "SGST",
+    "name": "SE (Europäische Aktiengesellschaft)"
+  },
+  {
+    "elfCode": "US8E",
+    "name": "Genossenschaft"
+  },
+  {
+    "elfCode": "XXXX0002",
+    "name": "Anstalt des öffentlichen Rechts"
+  },
+  {
+    "elfCode": "40DB",
+    "name": "Offene Handelsgesellschaft"
+  },
+  {
+    "elfCode": "8Z6G",
+    "name": "Kommanditgesellschaft"
+  },
+  {
+    "elfCode": "XXXX0003",
+    "name": "SE & Co. KGaA"
+  },
+  {
+    "elfCode": "SUA1",
+    "name": "Europäische Genossenschaft"
+  },
+  {
+    "elfCode": "13AV",
+    "name": "Versicherungsverein auf Gegenseitigkeit"
+  },
+  {
+    "elfCode": "DE0001",
+    "name": "Einzelunternehmen"
+  },
+  { "elfCode": "DE0002", "name": "GbR" },
+  { "elfCode": "DE0003", "name": "e. K." },
+  {
+    "elfCode": "DE0004",
+    "name": "SE & Co. KG"
+  },
+  {
+    "elfCode": "DE0005",
+    "name": "Stiftung & Co. KG"
+  }
+]

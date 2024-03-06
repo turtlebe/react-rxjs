@@ -1,0 +1,13 @@
+## Required Identifiers for TOS-CDK
+account: prod
+environmentType: PROD
+
+application:
+  auth0:
+    clientId: 4CYN5bahWEzbDAwhIvmVGnQyiNdoFj6X
+  googleMapsApiKey: AIzaSyCNJYjk0mPAEbI4Kii7IIf8l8ds2B9Xp5s
+  posthogApiKey: phc_yLUgeH6afXVvcDPFPxL0GfuJtsBpwhDu0SzltS6DVRp
+  posthogEnabled: true
+
+environment:
+  accountDomain: truck-os.com

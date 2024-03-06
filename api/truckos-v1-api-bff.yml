@@ -1,0 +1,2141 @@
+openapi: '3.0.2'
+info:
+  title: TruckOS API
+  version: '1.0'
+servers:
+  - url: https://api.server.test/v1
+  - url: http://127.0.0.1:4010
+
+tags:
+  - name: Customer
+    description: Counterparty/Customer companies
+  - name: Contact
+    description: Contact Details/Information
+  - name: Account
+    description: Self-view ("my") company
+  - name: Order
+    description: Job Orders (take this from here to there on these terms)
+  - name: OrderDocuments
+    description: Order documents management APIs
+  - name: Search
+    description: Endpoints used to perform various types of search
+
+components:
+  parameters:
+    #Always required for most company details
+    companyIdPathParam:
+      in: path
+      name: companyId
+      required: true
+      schema:
+        type: string
+
+    customerIdPathParam:
+      in: path
+      name: customerId
+      required: true
+      schema:
+        type: string
+
+    contactIdPathParam:
+      in: path
+      name: contactId
+      required: true
+      schema:
+        type: string
+
+    orderIdPathParam:
+      in: path
+      name: orderId
+      required: true
+      schema:
+        type: string
+
+    documentIdPathParam:
+      in: path
+      name: documentId
+      required: true
+      schema:
+        type: string
+
+  schemas:
+    ## Common
+    Address:
+      type: object
+      properties:
+        streetAndNumber:
+          type: string
+        addressAddOn:
+          type: string
+        city:
+          type: string
+        postcode:
+          type: string
+        country:
+          type: string
+        formattedAddress:
+          type: string
+      example:
+        streetAndNumber: Luisenstr. 51
+        city: München
+        postcode: '80803'
+        country: Germany
+        formattedAddress: Luisenstr. 51, München, 80803, Germany
+
+    date-time:
+      type: string
+      format: date-time
+
+    big-decimal: ##Just a string, but important to denote it's a big-decimal
+      type: string
+
+    currency:
+      type: string
+      minimum: 3
+      maximum: 3
+
+    ## Technical Schemas
+
+    ClientRequestRejection:
+      type: object
+      properties:
+        error:
+          type: string
+        params:
+          type: object
+          additionalProperties: true
+
+    FileMetadata:
+      type: object
+      properties:
+        fileName:
+          type: string
+        contentType:
+          type: string
+      example:
+        fileName: TruckOS-Special-Conditions-DE.pdf
+        contentType: application/pdf
+
+    DownloadFileLink:
+      type: object
+      properties:
+        documentMetadata:
+          $ref: '#/components/schemas/FileMetadata'
+        url:
+          type: string
+        expires:
+          $ref: '#/components/schemas/date-time'
+
+    UploadFileLink:
+      type: object
+      properties:
+        uploadId:
+          type: string
+        url:
+          type: string
+        expires:
+          $ref: '#/components/schemas/date-time'
+      example:
+        ## THIS LINK WILL EXPIRE. If you need a new REAL link for testing, please review the README on how to get one
+        url: https://truckos-dev-data-documentsbucket9ec9deb9-1dht08po0ke8p.s3.eu-west-1.amazonaws.com/local-dev/saintf/ui/uploads/b05bedf7-f20b-4a0a-9c43-876037f1cda0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA2EJ4VQTM7BGDS6CJ%2F20230301%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20230301T182802Z&X-Amz-Expires=259200&X-Amz-Signature=fcc168beb97a8223fb509684120489feeb15ef9ffbf4daff940c5c5e615e58be&X-Amz-SignedHeaders=host&x-id=PutObject
+        uploadId: document-123
+        expires: '2023-03-04T18:28:02.000Z'
+
+    ## User Profile
+    UserProfile:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - locale
+      properties:
+        userId:
+          type: string
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        locale:
+          type: string
+          enum:
+            - 'de-DE'
+            - 'en-US'
+        avatarUrl:
+          type: string
+        profileStatus:
+          type: string
+          # Enum so that in a future we can make a finer grain as necessary
+          enum:
+            - COMPLETE
+            - INCOMPLETE
+
+    User:
+      allOf:
+        - $ref: '#/components/schemas/UserProfile'
+        - type: object
+          required:
+            - companies
+          properties:
+            companies:
+              type: array
+              items:
+                $ref: '#/components/schemas/CompanySummary'
+
+    ## Venues
+    Venue:
+      type: object
+      properties:
+        venueId:
+          type: string
+        venueName:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+      example:
+        venueId: venue12345
+        venueName: Südost Fruchtkontor
+        address:
+          streetAndNumber: Luisenstr. 51
+          city: München
+          postcode: '80803'
+          country: Germany
+
+    ## COMPANIES - both Account and Customer
+    CompanySummary: ##Used for quick display/lookups
+      type: object
+      required:
+        - companyId
+        - companyName
+      properties:
+        companyId:
+          type: string
+        companyName:
+          type: string
+        availableFeatures:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountFeature'
+      example:
+        companyId: company112
+        companyName: Monsters Inc
+        availableFeatures:
+          - functionality: ORDER_BOOK
+            status: FEATURE_AVAILABLE
+          - functionality: FACTORING_WALBING
+            status: FEATURE_AVAILABLE
+
+    CompanySummaryList:
+      type: array
+      items:
+        $ref: '#/components/schemas/CompanySummary'
+
+    CompanyBase:
+      allOf:
+        - $ref: '#/components/schemas/CompanySummary'
+        - type: object
+          required:
+            - details
+          properties:
+            state:
+              enum:
+                - DRAFT
+                - VALIDATED
+            details:
+              $ref: '#/components/schemas/CountrySpecificCompanyDetails'
+
+    CountrySpecificCompanyDetails:
+      oneOf:
+        - $ref: '#/components/schemas/GermanCompanyDetails'
+      discriminator:
+        propertyName: companyType
+        mapping:
+          GermanCompanyDetails: '#/components/schemas/GermanCompanyDetails'
+
+    CompanyContactBase:
+      type: object
+      properties:
+        companyId:
+          type: string
+        contactId:
+          type: string
+        contactName:
+          type: string
+        contactDetails:
+          $ref: '#/components/schemas/CompanyContactDetails'
+
+    CompanyContactDetails:
+      type: object
+      properties:
+        email:
+          type: string
+        phoneNumber:
+          type: string
+
+    GermanCompanyDetails:
+      type: object
+      required:
+        - companyType
+      properties:
+        companyType:
+          type: string # Actually an enum -- needs to match to above
+        address:
+          $ref: '#/components/schemas/Address'
+        commercialRegisterNumber:
+          type: string
+        legalForm:
+          type: string
+        registrationAuthority:
+          type: string
+        vatId:
+          type: string
+        taxId:
+          type: string
+
+    AccountCompany: ##Basically, the model of the company that holds the current account
+      allOf:
+        - $ref: '#/components/schemas/CompanyBase'
+        - type: object
+          properties:
+            accountCompanyContacts:
+              type: array
+              items:
+                $ref: '#/components/schemas/AccountCompanyContact'
+            accountCompanyBankDetails:
+              $ref: '#/components/schemas/AccountCompanyBankAccount'
+            availableFeatures:
+              type: array
+              items:
+                $ref: '#/components/schemas/AccountFeature'
+            accountCompanyLogo:
+              type: object
+              properties:
+                logoUrl:
+                  type: string
+                mimeType:
+                  type: string
+
+    AccountFeature:
+      type: object
+      properties:
+        functionality:
+          enum:
+            - ORDER_BOOK
+            - FACTORING_WALBING
+        status:
+          enum:
+            - USER_NOT_APPLIED
+            - VERIFICATION_IN_PROGRESS
+            - VERIFICATION_INSUFFICIENT_DATA
+            - FEATURE_AVAILABLE
+            - FEATURE_FORBIDDEN
+
+    AccountCompanyContact:
+      allOf:
+        - $ref: '#/components/schemas/CompanyContactBase'
+        - type: object
+          properties:
+            includeIn:
+              type: array
+              items:
+                enum:
+                  - outgoingBookkeeping #Include in invoices I issue
+                  - publicProfile
+                  - incomingBookkeeping #Advertise for invoices I receive?
+
+    AccountCompanyBankAccount:
+      type: object
+      properties:
+        iban:
+          type: string
+        bic:
+          type: string
+      required:
+        - iban
+        - bic
+      example:
+        iban: DE89 3704 0044 0532 0130 00
+        bic: SSKMDEMM
+
+    CustomerCompany: ##The model for what we would see when looking at a customer company
+      allOf:
+        - $ref: '#/components/schemas/CompanyBase'
+        - type: object
+          properties:
+            businessAbilityKnowledge:
+              type: object
+              properties:
+                creditWorthiness:
+                  type: string
+                  example: 'low'
+            publicCompanyContacts:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerCompanyContact'
+            relationshipCompanyContacts:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerCompanyContact'
+
+    CustomerCompanyContact:
+      allOf:
+        - $ref: '#/components/schemas/CompanyContactBase'
+        - type: object
+          properties:
+            useFor:
+              type: array
+              items:
+                enum:
+                  - bookkeeping #Submission of invoice -- anything else?
+                  - disposition #Order confirmation -- anything else?
+
+    ### ORDER Items ###
+    Order:
+      type: object
+      properties:
+        orderId:
+          type: string
+        orderVersion:
+          type: number # Used for clash detection - not to be displayed/etc.
+        orderWorkflow:
+          $ref: '#/components/schemas/OrderWorkflowDetails'
+        orderDetails:
+          $ref: '#/components/schemas/OrderDetails'
+        documentDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderDocumentDetails'
+        workflowAvailableActions:
+          $ref: '#/components/schemas/OrderWorkflowActions'
+      example:
+        orderId: order123
+        orderWorkflow:
+          workflowSteps:
+            - stepName: OrderConfirmation
+              stepStatus: 'Actionable'
+              stepAvailableActions:
+                - SendOrderConfirmation
+            - stepName: PODUploaded
+              stepStatus: Actionable
+              stepAvailableActions:
+                - UploadProofOfDelivery
+            - stepName: PODSent
+              stepStatus: Actionable
+              stepAvailableActions:
+                - SendProofOfDelivery
+            - stepName: InvoiceSent
+              stepStatus: Actionable
+              stepAvailableActions:
+                - SendInvoice
+            - stepName: CreditNoteReceived
+              stepStatus: Actionable
+              stepAvailableActions:
+                - UploadCreditNote
+            - stepName: PaymentReceived
+              stepStatus: Actionable
+              stepAvailableActions:
+                - RecordPayment
+        orderDetails:
+          status: CREATED
+          clearingSystem: invoice
+          customerInformation:
+            customerOrderNumber: KN-23-2078
+            customerCompany:
+              companyId: company-14251
+              companyName: DB Schenker
+              kycStatus: in_progress
+              details:
+                companyType: SimpleCompany
+                address:
+                  streetAndNumber: Feilchenweg 3
+                  addressAddOn: ''
+                  city: Stuttgart
+                  postcode: '15673'
+                  country: DE
+            contacts:
+              dispositionContact:
+                companyId: company-14251
+                contactId: contact-345
+                contactName: Michael Müller
+                contactDetails:
+                  email: michael@mueller-transporte.de
+                  phoneNumber: '+49-177-3680448'
+              bookkeepingContact:
+                companyId: company-14251
+                contactId: contact-345
+                contactName: Lea Schmidt
+                contactDetails:
+                  email: lea@mueller-transporte.de
+                  phoneNumber: '+49-177-3680446'
+          loadDetails:
+            loadingTimeAndPlace:
+              timeWindow:
+                start: '2023-02-03T12:00:00.000Z'
+                end: '2023-02-03T13:00:00.000Z'
+              venue:
+                venueId: venue12345
+                venueName: Südost Fruchtkontor
+                address:
+                  streetAndNumber: Luisenstr. 51
+                  city: München
+                  postcode: '80803'
+                  country: Deutschland
+            unloadingTimeAndPlace:
+              timeWindow:
+                start: '2023-02-04T12:00:00.000Z'
+                end: '2023-02-04T14:00:00.000Z'
+              venue:
+                venueId: venue12346
+                venueName: Nordwest Fruchtkontor
+                address:
+                  streetAndNumber: Große Bleichen 33
+                  city: Hamburg
+                  postcode: '20354'
+                  country: Deutschland
+            loadDescription: 50 Paletten Bananen
+          stipulations:
+            - This is the first stipulation
+            - This is stipulation 2
+          serviceAgreementDetails:
+            paymentTermDays: 45
+            vatRate: 0.19
+            currency: 'EUR'
+            services:
+              - service: Freight transport
+                netAmount: 1003.60
+              - service: 20x Pallets
+                netAmount: 200.00
+        documentDetails:
+          - documentId: doc-21352
+            documentType: Order
+            documentActions:
+              - download
+              - delete
+            fileMetadata:
+              fileName: Order_Confirmation_Wolfrum_2022-283.pdf
+              contentType: pdf
+          - documentId: ''
+            documentType: OrderConfirmation
+            documentActions:
+              - SendOrderConfirmation
+            fileMetadata:
+              fileName: ''
+              contentType: ''
+          - documentId: doc-21353
+            documentType: ProofOfDelivery
+            documentActions:
+              - UploadProofOfDelivery
+            fileMetadata:
+              fileName: Order_Confirmation_Wolfrum_2022-283.pdf
+              contentType: pdf
+          - documentId: doc-21354
+            documentType: Invoice
+            documentActions:
+              - UploadProofOfDelivery
+            fileMetadata:
+              fileName: Order_Confirmation_Wolfrum_2022-283.pdf
+              contentType: pdf
+        workflowAvailableActions:
+          - SendOrderConfirmation
+          - UploadProofOfDelivery
+          - ShareWithDriver
+          - DeleteOrder
+
+    OrderSummary: ##Only used for display purposes.
+      type: object
+      required:
+        - orderId
+      properties:
+        orderId:
+          type: string
+        sortIndex:
+          type: number
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+        deliveryDate:
+          $ref: '#/components/schemas/date-time'
+        currency:
+          $ref: '#/components/schemas/currency'
+        amount:
+          $ref: '#/components/schemas/big-decimal'
+        customerName:
+          type: string
+        clearingSystem:
+          $ref: '#/components/schemas/OrderClearingSystem'
+        workflowAvailableActions:
+          $ref: '#/components/schemas/OrderWorkflowActions'
+
+    OrderStatus:
+      type: string
+      enum:
+        - CREATED
+        - DELIVERED
+        - WAITING_FOR_PAYMENT
+        - PAID
+        - OVERDUE
+        - IN_COLLECTION
+        - WRITEOFF
+        - ARCHIVED
+
+    OrderClearingSystem:
+      type: string
+      enum:
+        - invoice
+        - credit_note
+
+    OrderDetails:
+      type: object
+      required:
+        - customerInformation
+      properties:
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+        customerInformation:
+          $ref: '#/components/schemas/OrderCustomerInformation'
+        loadDetails:
+          $ref: '#/components/schemas/OrderLoadDetails'
+        stipulations:
+          type: array
+          items:
+            type: string
+        serviceAgreementDetails:
+          $ref: '#/components/schemas/OrderServiceAgreementDetails'
+        clearingSystem:
+          $ref: '#/components/schemas/OrderClearingSystem'
+
+    OrderCustomerInformation:
+      type: object
+      properties:
+        customerOrderNumber:
+          type: string
+        customerCompany:
+          $ref: '#/components/schemas/CustomerCompany'
+        contacts:
+          type: object
+          properties:
+            dispositionContact:
+              $ref: '#/components/schemas/CustomerCompanyContact'
+            bookkeepingContact:
+              $ref: '#/components/schemas/CustomerCompanyContact'
+
+    OrderLoadTimeAndPlace:
+      type: object
+      properties:
+        timeWindow:
+          $ref: '#/components/schemas/TimeWindow'
+        venue:
+          $ref: '#/components/schemas/Venue'
+
+    TimeWindow:
+      type: object
+      required:
+        - start
+      properties:
+        start:
+          $ref: '#/components/schemas/date-time'
+        end:
+          $ref: '#/components/schemas/date-time'
+      example:
+        start: '2023-01-15T18:00:00.123Z'
+        end: '2023-01-18T18:00:00.123Z'
+
+    OrderLoadDetails:
+      type: object
+      properties:
+        loadingTimeAndPlace:
+          $ref: '#/components/schemas/OrderLoadTimeAndPlace'
+        unloadingTimeAndPlace:
+          $ref: '#/components/schemas/OrderLoadTimeAndPlace'
+        loadDescription:
+          type: string
+
+    OrderServiceAgreementDetails:
+      type: object
+      properties:
+        paymentTermDays:
+          type: integer
+        vatRate:
+          type: number
+        currency:
+          $ref: '#/components/schemas/currency'
+        services:
+          type: array
+          items:
+            type: object
+            properties:
+              service:
+                type: string
+              netAmount:
+                type: number
+            required:
+              - service
+              - netAmount
+
+    ## Order workflow ##
+    OrderWorkflowAction:
+      enum:
+        - UploadOrder
+        - SendOrderConfirmation
+        - UploadProofOfDelivery
+        - SendInvoice
+        - SendProofOfDelivery
+        - UploadCreditNote
+        - RecordPayment
+        - FactorOrder
+        - DeleteOrder
+        - ShareWithDriver
+
+    OrderWorkflowActions:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderWorkflowAction'
+
+    OrderWorkflowDetails:
+      type: object
+      description: Current Order Workflow details and status
+      properties:
+        workflowSteps:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderWorkflowStep'
+
+    OrderWorkflowStep:
+      type: object
+      properties:
+        stepName:
+          enum:
+            - OrderUploaded
+            - OrderConfirmation
+            - PODUploaded
+            - PODSent
+            - InvoiceSent
+            - CreditNoteReceived
+            - PaymentReceived
+            - SentToCollections
+            - WrittenOff
+        stepStatus:
+          enum:
+            - NotReady #If there's no actions - isn't it not actionable?
+            - Actionable #If there's actions - isn't actionable?
+            - Warning #Like... if Payment is not received?
+            - Complete
+            - Skipped
+        stepCompletionDate:
+          $ref: '#/components/schemas/date-time'
+        stepAvailableActions:
+          $ref: '#/components/schemas/OrderWorkflowActions'
+
+    OrderSharingInfo:
+      type: object
+      required:
+        - channel
+        - recipient
+      properties:
+        channel:
+          type: string
+          enum:
+            - EMAIL
+        recipient:
+          type: string
+      example:
+        channel: EMAIL
+        recipient: 'foo@bar.de'
+
+    OrderPaymentReceiptInfo:
+      type: object
+      required:
+        - paymentReceivedOn
+      properties:
+        paymentReceivedOn:
+          type: string
+          format: date
+      example:
+        paymentReceivedOn: '2023-07-23'
+
+    ## Order Documents ##
+    OrderDocumentDetails:
+      type: object
+      properties:
+        documentId:
+          type: string
+        documentType:
+          enum:
+            - Order
+            - OrderConfirmation
+            - ProofOfDelivery
+            - Invoice
+            - CreditNote
+        documentActions:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentWorkflowAction'
+        fileMetadata:
+          $ref: '#/components/schemas/FileMetadata'
+
+    DocumentWorkflowAction:
+      enum:
+        # this list of actions comes from the OrderWorkflowAction enum
+        # swagger doesn't generate proper java code on the backend so a quick solution to
+        # copy-paste values from there.
+        - UploadOrder
+        - SendOrderConfirmation
+        - UploadProofOfDelivery
+        - SendInvoice
+        - SendProofOfDelivery
+        - UploadCreditNote
+        - RecordPayment
+        - FactorOrder
+        - DeleteOrder
+        - ShareWithDriver
+        # additional document-specific actions
+        - delete
+        - download
+
+    DocumentTypeForSend:
+      type: string
+      enum:
+        - ORDER_CONFIRMATION
+        - PROOF_OF_DELIVERY
+        - INVOICE
+
+    SendDocument:
+      type: object
+      required:
+        - documentType
+      properties:
+        documentType:
+          $ref: '#/components/schemas/DocumentTypeForSend'
+      example:
+        documentType: PROOF_OF_DELIVERY
+
+    DocumentTypeForAutogeneration:
+      type: string
+      enum:
+        - ORDER_CONFIRMATION
+        - INVOICE
+      example:
+        documentType: INVOICE
+
+    AutogeneratedDocument:
+      type: object
+      required:
+        - documentType
+      properties:
+        documentType:
+          $ref: '#/components/schemas/DocumentTypeForAutogeneration'
+
+    DocumentMetadata:
+      type: object
+      properties:
+        fileName:
+          type: string
+        mimeType:
+          type: string
+      example:
+        fileName: 'Proof_Of_Delivery.pdf'
+        mimeType: 'application/pdf'
+
+    DocumentBasicUploadOrGenerationResponseInfo:
+      type: object
+      required:
+        - documentId
+      properties:
+        documentId:
+          type: string
+      example:
+        documentId: 'company-123-order-321-KN22-6782-invoice-321'
+
+    DocumentDownloadInfo:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/DocumentDownloadLinkInfo'
+        - $ref: '#/components/schemas/DocumentMetadata'
+
+    DocumentDownloadLinkInfo:
+      type: object
+      properties:
+        downloadLink:
+          type: string
+        downloadLinkExpiresAt:
+          $ref: '#/components/schemas/date-time'
+      example:
+        downloadLink: '/files/TruckOS-Special-Conditions-DE.pdf'
+        downloadLinkExpiresAt: '2023-08-11T00:00:00.000Z'
+    UploadableDocumentTypes:
+      enum:
+        - ORDER_DETAILS
+        - CREDIT_NOTE
+        - PROOF_OF_DELIVERY
+
+    GeneratedDocumentType:
+      enum:
+        - ORDER_CONFIRMATION
+        - INVOICE
+
+    ## REFERENCE DATA ##
+    LegalForm:
+      type: object
+      properties:
+        name:
+          type: string
+        elfCode:
+          type: string
+      required:
+        - name
+        - elfCode
+
+    Country:
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+        - code
+
+    RegisterAuthority:
+      type: object
+      properties:
+        name:
+          type: string
+        registerAuthorityCode:
+          type: string
+        registrationNumberRequirement:
+          type: string
+          enum:
+            - REQUIRED
+            - OPTIONAL
+        registrationDocumentRequirement:
+          type: string
+          enum:
+            - REQUIRED
+            - OPTIONAL
+      required:
+        - name
+        - registerAuthorityCode
+        - registrationNumberRequirement
+        - registrationDocumentRequirement
+
+    
+
+    ### Admin-related entities
+    TemporaryCompanyAccessRequest:
+      type: array
+      items:
+        type: object
+        properties:
+          companyId:
+            type: string
+          accessExpiresAt:
+            $ref: '#/components/schemas/date-time'
+          roles:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserRole'
+      example:
+        - companyId: 'company-123'
+          accessExpiresAt: '2023-05-15T15:30:30.123Z'
+          roles:
+            - FinanceUser
+            - Driver
+        - companyId: 'company-321'
+          accessExpiresAt: '2023-05-16T15:00:00.123Z'
+          roles:
+            - CompanyOwner
+
+    UserRole:
+      enum:
+        - Driver
+        - CompanyOwner
+        - FinanceUser
+
+
+  responses:
+    ## Not every response goes in here - only shared.
+    ## Apply the rule of 3: If it's being used 3 or more times, then it goes in here. Otherwise, keep it in the Paths section.
+    400-RejectRequest:
+      description: Cannot Fulfill Request
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ClientRequestRejection'
+    404-NotFound:
+      description: Not found
+    405-NotAllowed:
+      description: Not Allowed
+paths:
+  /account:
+    post:
+      summary: Allocate new account company id
+      operationId: createAccountCompanyId
+      tags:
+        - Account
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              nullable: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accountCompanyId:
+                    type: string
+                required:
+                  - accountCompanyId
+              example:
+                accountCompanyId: account-company-id-123
+
+  /account/{companyIdParam}:
+    get:
+      summary: Get account company basic details
+      operationId: getCompanyForAccount
+      tags:
+        - Account
+      parameters:
+        - name: companyIdParam
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountCompany'
+              example:
+                companyId: company112
+                companyName: Trucking Inc
+                availableFeatures:
+                  - functionality: ORDER_BOOK
+                    status: FEATURE_AVAILABLE
+                  - functionality: FACTORING_WALBING
+                    status: FEATURE_AVAILABLE
+                details:
+                  companyType: GermanCompanyDetails
+                  address:
+                    streetAndNumber: Kehlweg 3
+                    city: München
+                    postcode: '80333'
+                    country: DE
+                  legalForm: 2HBR
+                  vatId: DE971528659
+                  taxId: 123/56/777
+                accountCompanyContacts:
+                  - contactDetails:
+                      email: joe@schmo.com
+                      phoneNumber: '+491778569887'
+                    includeIn:
+                      - outgoingBookkeeping
+                accountCompanyBankDetails:
+                  iban: DE50500105178341774934
+                  bic: BYLADEM1001
+                accountCompanyLogo:
+                  logoUrl: 'https://static.vecteezy.com/ti/gratis-vektor/t2/6604979-transport-logo-mit-modernem-und-professionellem-konzept-premium-vektor.jpg'
+                  mimeType: 'image/jpeg'
+
+    put:
+      summary: Update company details
+      operationId: updateCompanyDetails
+      tags:
+        - Account
+      parameters:
+        - name: companyIdParam
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountCompany'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+  /account/{companyIdParam}/logo:
+    put:
+      summary: Request an upload link for the company logo
+      operationId: requestCompanyLogoUploadUrl
+      tags:
+        - Account
+      parameters:
+        - name: companyIdParam
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mimeType:
+                  type: string
+      responses:
+        201:
+          description: The company logo upload url
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  logoUploadLink:
+                    type: string
+                  mimeType:
+                    type: string
+    delete:
+      summary: Delete the current company logo
+      operationId: deleteCurrentCompanyLogo
+      tags:
+        - Account
+      parameters:
+        - name: companyIdParam
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: The Logo successfully removed
+
+  /ref-data/legal-forms/{countryCode}:
+    get:
+      summary: Get the legal forms for a country code
+      operationId: getLegalForms
+      tags:
+        - RefData
+      parameters:
+        - name: countryCode
+          in: path
+          description: Country code
+          required: true
+          schema:
+            type: string
+            maxLength: 2
+            minLength: 2
+        - name: availableForTrader
+          in: query
+          description: Filter by availableForTrader
+          schema:
+            type: boolean
+        - name: availableForDebtor
+          in: query
+          description: Filter by availableForDebtor
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LegalForm'
+              examples:
+                jsonObject:
+                  value:
+                    $ref: 'examples/LegalForms.json'
+
+  /ref-data/countries:
+    get:
+      summary: Get country codes
+      operationId: getCountries
+      tags:
+        - RefData
+      parameters:
+        - name: forDebtor
+          in: query
+          description: Filter by forDebtor
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Country'
+              examples:
+                jsonObject:
+                  value:
+                    $ref: 'examples/Countries.json'
+
+  /ref-data/register-authorities/{countryCode}:
+    get:
+      summary: Get the register authorities for a country code
+      operationId: getRegisterAuthorities
+      tags:
+        - RefData
+      parameters:
+        - name: countryCode
+          in: path
+          description: Country code
+          required: true
+          schema:
+            type: string
+            maxLength: 2
+            minLength: 2
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RegisterAuthority'
+              examples:
+                jsonObject:
+                  value:
+                    $ref: 'examples/RegisterAuthorities.json'
+
+  /account/company/search:
+    get:
+      summary: Perform a system-wide Company search
+      description: Perform a system-wide Company search. This one may hit external systems in which case the 'companyId' will be empty.
+      operationId: globalCompanySearch
+      tags:
+        - Search
+      parameters:
+        - in: query
+          name: query
+          required: true
+          schema:
+            type: string
+          description:
+            Perform a partial search based on the Company Name, VAT ID or a Registration Number.
+            This parameter must contain at least 3 characters.
+          example: 'HRA162'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanySummaryList'
+
+  /account/{companyId}/customer:
+    get:
+      summary: Get the list of previous customer company names and ids
+      operationId: getPreviousCustomers
+      tags:
+        - Customer
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanySummaryList'
+              examples:
+                jsonObject:
+                  value:
+                    $ref: 'examples/PreviousCompanies.json'
+    post:
+      summary: Create a new Customer
+      operationId: createNewCustomer
+      tags:
+        - Customer
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - form
+              properties:
+                form:
+                  $ref: '#/components/schemas/CustomerCompany'
+      responses:
+        201:
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  customerCompany:
+                    $ref: '#/components/schemas/CustomerCompany'
+        400:
+          $ref: '#/components/responses/400-RejectRequest'
+
+  /account/{companyIdParam}/customer/{customerIdParam}:
+    get:
+      summary: Get Customer Company Details
+      operationId: getCustomer
+      tags:
+        - Customer
+      parameters:
+        - name: companyIdParam
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: customerIdParam
+          in: path
+          description: Customer id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerCompany'
+
+  /account/{companyIdParam}/customer/{customerIdParam}/contact:
+    get:
+      summary: Get Customer Contacts
+      operationId: getCustomerContacts
+      tags:
+        - Customer
+        - Contact
+      parameters:
+        - name: companyIdParam
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: customerIdParam
+          in: path
+          description: Customer id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerCompanyContact'
+    post:
+      summary: Create a new Customer Contact
+      operationId: createNewPrivateCustomerContact
+      tags:
+        - Customer
+        - Contact
+      parameters:
+        - name: companyIdParam
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: customerIdParam
+          in: path
+          description: Customer id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCompanyContact'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerCompanyContact'
+        400:
+          $ref: '#/components/responses/400-RejectRequest'
+
+  /account/{companyIdParam}/customer/{customerIdParam}/contact/{contactIdParam}:
+    put:
+      summary: Update Customer Contact
+      operationId: updatePrivateCustomerContact
+      tags:
+        - Customer
+        - Contact
+      parameters:
+        - name: companyIdParam
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: customerIdParam
+          in: path
+          description: Customer id
+          required: true
+          schema:
+            type: string
+        - name: contactIdParam
+          in: path
+          description: Contact id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCompanyContact'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerCompanyContact'
+        400:
+          $ref: '#/components/responses/400-RejectRequest'
+    get:
+      summary: Get Customer Contact
+      operationId: getCustomerContact
+      tags:
+        - Customer
+        - Contact
+      parameters:
+        - name: companyIdParam
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: customerIdParam
+          in: path
+          description: Customer id
+          required: true
+          schema:
+            type: string
+        - name: contactIdParam
+          in: path
+          description: Contact id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerCompanyContact'
+
+  /account/{companyIdParam}/order:
+    description: Dealing with orders - big-picture
+    get:
+      summary: Get the order list
+      operationId: getOrdersList
+      tags:
+        - Order
+      parameters:
+        - name: companyIdParam
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: orderAsOfTime #In the API, but agreed that first iteration of backend won't respect/look at this.
+          in: query
+          description: Timestamp to load the orders as of
+          required: true
+          schema:
+            $ref: '#/components/schemas/date-time'
+        - name: search
+          in: query
+          description: Text search value
+          required: false
+          schema:
+            type: string
+        - name: size
+          in: query
+          description: Number of orders to load
+          required: true
+          schema:
+            type: number
+        - name: offset
+          in: query
+          description: The index to load from
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isEnd:
+                    type: boolean
+                  userHasOrders:
+                    type: boolean
+                  orders:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OrderSummary'
+              example:
+                isEnd: false
+                userHasOrders: true
+                orders:
+                  - orderId: order111
+                    sortIndex: 0
+                    status: CREATED
+                    deliveryDate: '2022-08-11T00:00:00.000Z'
+                    currency: EUR
+                    amount: '1040'
+                    customerName: DHL Supply Chain
+                    workflowAvailableActions:
+                      - UploadOrder
+                      - SendOrderConfirmation
+                      - UploadProofOfDelivery
+                  - orderId: order112
+                    sortIndex: 1
+                    status: PAID
+                    deliveryDate: '2022-08-11T00:00:00.000Z'
+                    currency: EUR
+                    amount: '1089'
+                    customerName: DHL Supply Chain
+                  - orderId: order114
+                    sortIndex: 2
+                    status: DELIVERED
+                    deliveryDate: '2022-08-11T00:00:00.000Z'
+                    currency: EUR
+                    amount: '1122.90'
+                    customerName: Hans Wormser AG
+                    workflowAvailableActions:
+                      - UploadOrder
+                      - SendInvoice
+                      - RecordPayment
+                  - orderId: order115
+                    sortIndex: 3
+                    status: IN_COLLECTION
+                    deliveryDate: '2022-08-11T00:00:00.000Z'
+                    currency: EUR
+                    amount: '922.80'
+                    customerName: Dachser SE
+                    workflowAvailableActions:
+                      - RecordPayment
+                  - orderId: order116
+                    sortIndex: 4
+                    status: OVERDUE
+                    deliveryDate: '2022-08-11T00:00:00.000Z'
+                    currency: EUR
+                    amount: '722.80'
+                    customerName: DB Schenker
+                    workflowAvailableActions:
+                      - RecordPayment
+    post:
+      summary: Create a new order
+      operationId: createNewOrder
+      tags:
+        - Order
+      parameters:
+        - name: companyIdParam
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - customerId
+              properties:
+                customerId:
+                  type: string
+                contacts:
+                  type: object
+                  properties:
+                    dispositionContact:
+                      $ref: '#/components/schemas/CustomerCompanyContact'
+                    bookkeepingContact:
+                      $ref: '#/components/schemas/CustomerCompanyContact'
+      responses:
+        201:
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  orderId:
+                    type: string
+                  orderVersion:
+                    type: number
+                required:
+                  - orderId
+                  - orderVersion
+                example:
+                  orderId: order1
+                  orderVersion: 1
+        400:
+          $ref: '#/components/responses/400-RejectRequest'
+
+  /account/{companyIdParam}/order/{orderIdParam}:
+    description: Get/etc everything to do with an 'existing' order. (existing just means we have an ID for it - not necessarily anything else)
+    delete:
+      summary: Archive an order
+      operationId: archiveOrder
+      tags:
+        - Order
+      parameters:
+        - name: companyIdParam
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: orderIdParam
+          in: path
+          description: Order id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: OK
+        '404':
+          $ref: '#/components/responses/404-NotFound'
+        '409':
+          $ref: '#/components/responses/405-NotAllowed'
+    get:
+      summary: Get order details
+      operationId: getOrder
+      tags:
+        - Order
+      parameters:
+        - name: companyIdParam
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: orderIdParam
+          in: path
+          description: Order id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+    put:
+      summary: Update Order
+      description:
+        Will update items that are allowed in the order (like order details, or the clearing type in workflow).
+        Since the other items (such as files, workflow steps or status) are either calculated or managed by the system,
+        any value in these will be ignored and not used. If the update is on an allowed field, but other issues (like duplicate
+        or updating that field in the current stage of the workflow) will result in the update being rejected.
+      tags:
+        - Order
+      operationId: updateOrder
+      parameters:
+        - name: companyIdParam
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: orderIdParam
+          in: path
+          description: Order id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderDetails'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+              example: true
+        400:
+          $ref: '#/components/responses/400-RejectRequest'
+        404:
+          $ref: '#/components/responses/404-NotFound'
+
+  /account/{companyId}/order/{orderId}/payment:
+    post:
+      summary: Confirm payment received
+      description: Confirm that the order was payed by this Carrier's Customer. This endpoint finalizes the order and successfuly closes it.
+      operationId: confirmPaymentReceived
+      tags:
+        - Order
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderPaymentReceiptInfo'
+      responses:
+        200:
+          description: The order payment receipt has been successfully recorded and the order has been finalized. Great job!
+
+  /account/{companyId}/order/{orderId}/document/upload:
+    post:
+      summary: Allocate new upload link
+      description:
+        This endpoint allocates a new link that you can use to upload the content of a document. Afterwards
+        when content is uploaded you need to confirm upload success by calling the PUT /account/{companyId}/order/{orderId}/document/{documentId}
+        endpoint with the uploadId from this endpoint's response. This is related to the fact that the aforementioned
+        link can be used multiple times to upload a file. The system wouldn't know when upload is done if the
+        success is not confirmed by the user.
+      operationId: getUploadLink
+      tags:
+        - OrderDocuments
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: orderId
+          in: path
+          description: Order id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/FileMetadata'
+                - type: object
+                  required:
+                    - documentType
+                  properties:
+                    documentType:
+                      $ref: '#/components/schemas/UploadableDocumentTypes'
+              example:
+                documentType: CREDIT_NOTE
+                fileName: TruckOS-Credit-Note.pdf
+                contentType: application/pdf
+      responses:
+        201:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadFileLink'
+        400:
+          $ref: '#/components/responses/400-RejectRequest'
+        404:
+          $ref: '#/components/responses/404-NotFound'
+
+  /account/{companyId}/order/{orderId}/document/generate:
+    post:
+      summary: Generate a document using information in the system.
+      description:
+        Request a document generation of a specific type of document. Each document requires
+        different data set so preliminary data validation will be done on the API call. In case of errors
+        api would return a 400 BAD REQUEST. It is currently possible to generate only an
+        Order Confirmation or an Invoice.
+      operationId: generateDocument
+      tags:
+        - OrderDocuments
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: orderId
+          in: path
+          description: Order id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - documentType
+              properties:
+                documentType:
+                  $ref: '#/components/schemas/GeneratedDocumentType'
+                invoiceNumber:
+                  type: string
+              example:
+                documentType: 'INVOICE'
+                invoiceNumber: 'RN2023/17'
+      responses:
+        201:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  documentId:
+                    type: string
+              example:
+                documentId: 'company-123-order-321-KN22-6782-invoice-321'
+        400:
+          $ref: '#/components/responses/400-RejectRequest'
+        404:
+          $ref: '#/components/responses/404-NotFound'
+
+  /account/{companyId}/order/{orderId}/document/{documentId}:
+    get:
+      summary: Get a download link for the document
+      operationId: getDownloadLink
+      tags:
+        - OrderDocuments
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The comprehensive information for downloading, parsing and reading the document is provided.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DownloadFileLink'
+              example:
+                documentMetadata:
+                  fileName: TruckOS-Special-Conditions-DE.pdf
+                  contentType: application/pdf
+                url: '/files/TruckOS-Special-Conditions-DE.pdf'
+                expires: '2023-02-16T12:00:00.000Z'
+        404:
+          $ref: '#/components/responses/404-NotFound'
+    put:
+      summary: Complete an uploadId
+      description: Confirms a document upload is finished and successful.
+      operationId: confirmUpload
+      tags:
+        - OrderDocuments
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: orderId
+          in: path
+          description: Order id
+          required: true
+          schema:
+            type: string
+        - name: documentId
+          in: path
+          description: Document id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                creditNoteDate:
+                  $ref: '#/components/schemas/date-time'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+              example: true
+        400:
+          $ref: '#/components/responses/400-RejectRequest'
+        404:
+          $ref: '#/components/responses/404-NotFound'
+    delete:
+      summary: Delete a document by id
+      operationId: deleteDocumentById
+      tags:
+        - OrderDocuments
+      parameters:
+        - name: companyId
+          in: path
+          description: Company id
+          required: true
+          schema:
+            type: string
+        - name: orderId
+          in: path
+          description: Order id
+          required: true
+          schema:
+            type: string
+        - name: documentId
+          in: path
+          description: Document id
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: The deletion is successful.
+          content:
+            application/json:
+              schema:
+                type: boolean
+              example: true
+
+  /account/{companyId}/order/{orderId}/document/send:
+    post:
+      summary: Send a document via predefined channel
+      description: Send a document with a particular type via a predefined channel.
+        The channel highly depends on the document type itself such as an invoice
+        could be currently sent only via email and only to the Freight Forwarder's
+        disposition email selected on the contacts selection screen.
+      operationId: sendDocumentByType
+      tags:
+        - OrderDocuments
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Used to confirm the document type of the target document that user intends to send.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendDocument'
+      responses:
+        201:
+          description: The send request has been accepted by the system and will processed asynchronously.
+          content:
+            application/json:
+              schema:
+                type: boolean
+              example: true
+
+  /account/{companyId}/order/{orderId}/share:
+    post:
+      summary: Share the order summary
+      description: Share basic information such as order number, loading and unloading venues with the given recipient.
+      tags:
+        - Order
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderSharingInfo'
+      responses:
+        202:
+          description: The request to share has been accepted and will be processed accordingly.
+          content:
+            application/json:
+              schema:
+                type: boolean
+              example: true
+
+  /user:
+    get:
+      summary: Get the user details for the logged in user
+      operationId: getUser
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                userId: user123
+                email: johngalt123@truck-os.de
+                firstName: John
+                lastName: Galt
+                language: de-DE
+                profileStatus: COMPLETE
+                companies:
+                  - companyId: company-id-444
+                    companyName: Galt Transporte
+                    availableFeatures:
+                      - functionality: ORDER_BOOK
+                        status: FEATURE_AVAILABLE
+                      - functionality: FACTORING_WALBING
+                        status: FEATURE_FORBIDDEN
+        '404':
+          description: Not found
+    put:
+      summary: Submit new user data. Certain fields will be ignored depending on KYC/etc.
+      operationId: updateUserData
+      requestBody:
+        description: user data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+              example: true
+        400:
+          $ref: '#/components/responses/400-RejectRequest'
+
+
+  ### Admin API
+  /admin/{userId}/company:
+    get:
+      operationId: getTruckOsCompanies
+      description: Get truckOS companies that have an owner in the system
+      tags:
+        - Admin
+      responses:
+        200:
+          description: Responds with a list of companies that are registered in the system and have an active owner
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanySummaryList'
+
+
+  /admin/{userId}/company/access:
+    post:
+      operationId: addTemporaryCompanyAccessToSupportUser
+      tags:
+        - Admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemporaryCompanyAccessRequest'
+      responses:
+        200:
+          description: Given Support User successfully attached to all listed companies. 
+            Response contains all currently applicable companies.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanySummaryList'
+    delete:
+      operationId: revokeCompanyAccessForSupportUser
+      tags:
+        - Admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                companyIdsToRevoke:
+                  type: array
+                  items:
+                    type: string
+              example:
+                companyIdsToRevoke:
+                  - 'company-123'
+                  - 'company-321'
+      responses:
+        200:
+          description: Accesses successfully revoked for the given support user

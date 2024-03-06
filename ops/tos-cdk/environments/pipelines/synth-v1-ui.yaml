@@ -1,0 +1,16 @@
+stage: synth-envs
+# <% if (it.pipelines.manualDeploy) { %>
+when: manual
+# <% } %>
+environment:
+  name: <%~account%>-<%~applicationName%>
+variables:
+  DEPLOY_ENVS: <%~envName%>
+script:
+  - pnpm run aws:cdk:clean:synth
+rules:
+  # <% if (it.pipelines.protected) { %>
+  - if: $CI_COMMIT_REF_PROTECTED == "true"
+  # <% } else { %>
+  - if: $CI_COMMIT_REF_PROTECTED != "true"
+  # <% } %>

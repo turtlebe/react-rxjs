@@ -1,0 +1,49 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs';
+import colors from '../colors';
+import gradients from '../gradients';
+
+<Meta title="theme/Colors" />
+
+# Color Palette
+
+<ColorPalette>
+  <ColorItem
+    title="Accent"
+    colors={{
+      Forest: colors.Forest,
+      ForestLight: colors.ForestLight,
+      Mint: colors.Mint,
+      Faded: colors.ForestFaded,
+    }}
+  />
+  <ColorItem
+    title="Greys"
+    colors={{
+      Midnight: colors.Midnight,
+      RavenDark: colors.RavenDark,
+      Raven: colors.Raven,
+      RavenLight: colors.RavenLight,
+      Cloud: colors.Cloud,
+      Dust: colors.Dust,
+      Snow: colors.Snow,
+    }}
+  />
+  <ColorItem title="Rose" colors={{ Rose: colors.Rose, RoseFaded: colors.RoseFaded }} />
+</ColorPalette>
+
+# Gradients
+
+<ColorPalette>
+  <ColorItem
+    title="Forest"
+    colors={{
+      ForestGradient: gradients.ForestGradient,
+    }}
+  />
+  <ColorItem
+    title="Raven"
+    colors={{
+      RavenGradient: gradients.RavenGradient,
+    }}
+  />
+</ColorPalette>

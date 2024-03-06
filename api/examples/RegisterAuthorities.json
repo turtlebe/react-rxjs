@@ -1,0 +1,962 @@
+[
+  {
+    "registerAuthorityCode": "RA000197",
+    "name": "Amtsgericht Aachen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000198",
+    "name": "Amtsgericht Ahlen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000199",
+    "name": "Amtsgericht Altenburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000200",
+    "name": "Amtsgericht Amberg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000201",
+    "name": "Amtsgericht Ansbach",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000202",
+    "name": "Amtsgericht Apolda",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000203",
+    "name": "Amtsgericht Arnsberg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000204",
+    "name": "Amtsgericht Arnstadt",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000205",
+    "name": "Amtsgericht Aschaffenburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000206",
+    "name": "Amtsgericht Augsburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000207",
+    "name": "Amtsgericht Aurich",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000208",
+    "name": "Amtsgericht Bad Hersfeld",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000209",
+    "name": "Amtsgericht Bad Homburg v. d. Höhe",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000210",
+    "name": "Amtsgericht Bad Kreuznach",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000212",
+    "name": "Amtsgericht Bad Lobenstein",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000213",
+    "name": "Amtsgericht Bad Oeynhausen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000214",
+    "name": "Amtsgericht Bad Salzungen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000215",
+    "name": "Amtsgericht Bamberg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000216",
+    "name": "Amtsgericht Bayreuth",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000217",
+    "name": "Amtsgericht Berlin-Charlottenburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000218",
+    "name": "Amtsgericht Bielefeld",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000219",
+    "name": "Amtsgericht Bochum",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000220",
+    "name": "Amtsgericht Bonn",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000221",
+    "name": "Amtsgericht Braunschweig",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000222",
+    "name": "Amtsgericht Bremen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000223",
+    "name": "Amtsgericht Bünde",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000224",
+    "name": "Amtsgericht Chemnitz",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000225",
+    "name": "Amtsgericht Coburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000226",
+    "name": "Amtsgericht Coesfeld",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000227",
+    "name": "Amtsgericht Cottbus",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000228",
+    "name": "Amtsgericht Darmstadt",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000229",
+    "name": "Amtsgericht Deggendorf",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000230",
+    "name": "Amtsgericht Dortmund",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000231",
+    "name": "Amtsgericht Dresden",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000232",
+    "name": "Amtsgericht Duisburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000233",
+    "name": "Amtsgericht Düren",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000234",
+    "name": "Amtsgericht Düsseldorf",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000235",
+    "name": "Amtsgericht Eisenach",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000236",
+    "name": "Amtsgericht Erfurt",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000238",
+    "name": "Amtsgericht Eschwege",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000239",
+    "name": "Amtsgericht Essen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000240",
+    "name": "Amtsgericht Flensburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000241",
+    "name": "Amtsgericht Frankfurt/Oder",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000242",
+    "name": "Amtsgericht Frankfurt am Main",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000243",
+    "name": "Amtsgericht Freiburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000244",
+    "name": "Amtsgericht Friedberg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000245",
+    "name": "Amtsgericht Fritzlar",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000246",
+    "name": "Amtsgericht Fulda",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000247",
+    "name": "Amtsgericht Fürth",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000248",
+    "name": "Amtsgericht Geldern",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000249",
+    "name": "Amtsgericht Gelsenkirchen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000250",
+    "name": "Amtsgericht Gera",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000251",
+    "name": "Amtsgericht Gießen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000252",
+    "name": "Amtsgericht Gotha",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000253",
+    "name": "Amtsgericht Göttingen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000255",
+    "name": "Amtsgericht Greiz",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000257",
+    "name": "Amtsgericht Gütersloh",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000258",
+    "name": "Amtsgericht Hagen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000259",
+    "name": "Amtsgericht Hamburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000260",
+    "name": "Amtsgericht Hamm",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000261",
+    "name": "Amtsgericht Hanau",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000262",
+    "name": "Amtsgericht Hannover",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000263",
+    "name": "Amtsgericht Heilbad Heiligenstedt",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000266",
+    "name": "Amtsgericht Hildburghausen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000267",
+    "name": "Amtsgericht Hildesheim",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000268",
+    "name": "Amtsgericht Hof",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000269",
+    "name": "Amtsgericht Homburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000270",
+    "name": "Amtsgericht Ilmenau",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000271",
+    "name": "Amtsgericht Ingolstadt",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000272",
+    "name": "Amtsgericht Iserlohn",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000273",
+    "name": "Amtsgericht Jena",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000274",
+    "name": "Amtsgericht Kaiserslautern",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000275",
+    "name": "Amtsgericht Kassel",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000276",
+    "name": "Amtsgericht Kempten",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000277",
+    "name": "Amtsgericht Kiel",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000278",
+    "name": "Amtsgericht Kleve",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000279",
+    "name": "Amtsgericht Koblenz",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000280",
+    "name": "Amtsgericht Köln",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000281",
+    "name": "Amtsgericht Königstein",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000282",
+    "name": "Amtsgericht Korbach",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000283",
+    "name": "Amtsgericht Krefeld",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000284",
+    "name": "Amtsgericht Landau",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000285",
+    "name": "Amtsgericht Landshut",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000286",
+    "name": "Amtsgericht Lebach",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000287",
+    "name": "Amtsgericht Leipzig",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000288",
+    "name": "Amtsgericht Lemgo",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000289",
+    "name": "Amtsgericht Limburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000290",
+    "name": "Amtsgericht Lübeck",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000291",
+    "name": "Amtsgericht Ludwigshafen am Rhein",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000292",
+    "name": "Amtsgericht Ludwigslust",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000293",
+    "name": "Amtsgericht Lüneburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000294",
+    "name": "Amtsgericht Lünen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000295",
+    "name": "Amtsgericht Mainz",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000296",
+    "name": "Amtsgericht Mannheim",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000297",
+    "name": "Amtsgericht Marburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000298",
+    "name": "Amtsgericht Meiningen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000299",
+    "name": "Amtsgericht Memmingen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000300",
+    "name": "Amtsgericht Merzig",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000301",
+    "name": "Amtsgericht Mönchengladbach",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000302",
+    "name": "Amtsgericht Montabaur",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000303",
+    "name": "Amtsgericht Mühlhausen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000304",
+    "name": "Amtsgericht München",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000305",
+    "name": "Amtsgericht Münster",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000306",
+    "name": "Amtsgericht Neubrandenburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000307",
+    "name": "Amtsgericht Neunkirchen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000308",
+    "name": "Amtsgericht Neuruppin",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000309",
+    "name": "Amtsgericht Neuss",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000310",
+    "name": "Amtsgericht Nordhausen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000311",
+    "name": "Amtsgericht Nürnberg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000313",
+    "name": "Amtsgericht Offenbach am Main",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000314",
+    "name": "Amtsgericht Oldenburg (Oldenburg)",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000315",
+    "name": "Amtsgericht Osnabrück",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000316",
+    "name": "Amtsgericht Ottweiler",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000317",
+    "name": "Amtsgericht Paderborn",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000319",
+    "name": "Amtsgericht Passau",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000320",
+    "name": "Amtsgericht Pinneberg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000321",
+    "name": "Amtsgericht Pößneck",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000322",
+    "name": "Amtsgericht Potsdam",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000324",
+    "name": "Amtsgericht Recklinghausen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000325",
+    "name": "Amtsgericht Regensburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000328",
+    "name": "Amtsgericht Rostock",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000329",
+    "name": "Amtsgericht Rudolfstadt",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000330",
+    "name": "Amtsgericht Saalfeld",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000331",
+    "name": "Amtsgericht Saarbrücken",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000332",
+    "name": "Amtsgericht Sarlouis",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000333",
+    "name": "Amtsgericht St. Ingbert",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000334",
+    "name": "Amtsgericht St. Wendel",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000336",
+    "name": "Amtsgericht Schweinfurt",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000337",
+    "name": "Amtsgericht Schwerin",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000338",
+    "name": "Amtsgericht Siegburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000339",
+    "name": "Amtsgericht Siegen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000340",
+    "name": "Amtsgericht Soest",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000341",
+    "name": "Amtsgericht Solingen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000342",
+    "name": "Amtsgericht Sömmerda",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000343",
+    "name": "Amtsgericht Sondershausen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000344",
+    "name": "Amtsgericht Sonneberg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000345",
+    "name": "Amtsgericht Stadthagen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000346",
+    "name": "Amtsgericht Stadtroda",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000347",
+    "name": "Amtsgericht Steinfurt",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000348",
+    "name": "Amtsgericht Stendal",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000349",
+    "name": "Amtsgericht Stralsund",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000350",
+    "name": "Amtsgericht Straubing",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000351",
+    "name": "Amtsgericht Stuttgart",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000352",
+    "name": "Amtsgericht Suhl",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000353",
+    "name": "Amtsgericht Tostedt",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000354",
+    "name": "Amtsgericht Traunstein",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000355",
+    "name": "Amtsgericht Ulm",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000356",
+    "name": "Amtsgericht Völklingen",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000358",
+    "name": "Amtsgericht Walsrode",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000360",
+    "name": "Amtsgericht Waren",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000362",
+    "name": "Amtsgericht Weiden",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000363",
+    "name": "Amtsgericht Weimar",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000364",
+    "name": "Amtsgericht Wetzlar",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000365",
+    "name": "Amtsgericht Wiesbaden",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000368",
+    "name": "Amtsgericht Wittlich",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000369",
+    "name": "Amtsgericht Wuppertal",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000370",
+    "name": "Amtsgericht Würzburg",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RA000371",
+    "name": "Amtsgericht Zweibrücken",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  },
+  {
+    "registerAuthorityCode": "RADE0001",
+    "name": "Gewerbeamt",
+    "registrationNumberRequirement": "OPTIONAL",
+    "registrationDocumentRequirement": "REQUIRED"
+  },
+  {
+    "registerAuthorityCode": "TB000001",
+    "name": "Anstalt des öffentlichen Rechts",
+    "registrationNumberRequirement": "REQUIRED",
+    "registrationDocumentRequirement": "OPTIONAL"
+  }
+]

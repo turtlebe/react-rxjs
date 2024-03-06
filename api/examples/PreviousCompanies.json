@@ -1,0 +1,14 @@
+[
+  {
+    "companyId": "company1",
+    "companyName": "Monster AG"
+  },
+  {
+    "companyId": "company2",
+    "companyName": "Awesome Company"
+  },
+  {
+    "companyId": "company3",
+    "companyName": "Trucking R Us"
+  }
+]

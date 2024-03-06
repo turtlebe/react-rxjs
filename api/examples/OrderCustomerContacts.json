@@ -1,0 +1,16 @@
+[
+  {
+    "contactId": "contact1",
+    "contactName": "Michaela Dachser",
+    "email": "m.dachser@dachser.de",
+    "phoneNumber": "+49089386523",
+    "type": "BOOKKEEPING"
+  },
+  {
+    "contactId": "contact2",
+    "contactName": "Christian Dachser",
+    "email": "c.dachser@dachser.de",
+    "phoneNumber": "+49089386523",
+    "type": "DISPOSITION"
+  }
+]
